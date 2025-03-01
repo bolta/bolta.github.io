@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-glide"><span class="title-type">node def
+</span>glide</h1>
+<p>入力の変化に対して出力をゆっくり追従させるエフェクトです。</p>
+<h2 id="主入力">主入力</h2>
+<p>任意の信号を受け取ります。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<table>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>必須/省略時</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>halflife</code></td>
+<td><strong>必須</strong></td>
+<td>追従における「半減期」（単位は秒）。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="イベント">イベント</h2>
+<p>イベントを受け取りません。</p>
+<h2 id="出力">出力</h2>
+<p>入力に対してゆっくり追従する値。</p>
+<h2 id="使用例">使用例</h2>
+<pre><code>// 周波数をゆっくり変化させる
+@instrument ^a, glide { halflife: 0.1 } | sawOsc * adsrEnv</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>glide</code>
+は、入力が十分長い時間にわたって一定であれば、同じ値を出力しますが、入力が変化した場合、新しい入力値をすぐには出力に反映せず、出力を従来の入力値から新しい入力値へとゆっくり近づけていきます。</p>
+<p>遷移速度はパラメータ入力の「半減期」（half-life）で指定します。半減期は、入力が
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>i</mi><mn>1</mn></msub><annotation encoding="application/x-tex">i_1</annotation></semantics></math>
+から
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>i</mi><mn>2</mn></msub><annotation encoding="application/x-tex">i_2</annotation></semantics></math>
+に変化したとき、出力が
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><mrow><msub><mi>i</mi><mn>1</mn></msub><mo>+</mo><msub><mi>i</mi><mn>2</mn></msub></mrow><mn>2</mn></mfrac><annotation encoding="application/x-tex">\frac{i_1 + i_2}{2}</annotation></semantics></math>
+に達するのにかかる時間です。</p>
+<p>半減期という用語からわかるように、出力は指数的に変化します。このため厳密には入力と出力が完全に等しくなることは永久にないのですが、通常は聴覚上、また計算精度上、「そのうち」等しくなると考えて問題はありません。</p>
+<p><img src="./glide.png" width=50%></p>
+</body>
+</html>
