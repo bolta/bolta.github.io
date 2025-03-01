@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command-c-d-e-f-g-a-b"><span class="title-type">MML command
+</span><code>c</code>, <code>d</code>, <code>e</code>, <code>f</code>,
+<code>g</code>, <code>a</code>, <code>b</code></h1>
+<p>音符を記述します。</p>
+<h2 id="書式">書式</h2>
+<p>(<code>c</code>|<code>d</code>|<code>e</code>|<code>f</code>|<code>g</code>|<code>a</code>|<code>b</code>)[<code>+</code>[<code>+</code>…]|<code>-</code>[<code>-</code>…]][length][<code>&amp;</code>]</p>
+<h2 id="詳細">詳細</h2>
+<p>音名は、<code>c</code>, <code>d</code>, <code>e</code>,
+<code>f</code>, <code>g</code>, <code>a</code>, <code>b</code>
+がそれぞれド、レ、ミ、ファ、ソ、ラ、シに対応します。</p>
+<p>音名の後に <code>+</code> をつけるとシャープ、<code>-</code>
+をつけるとフラットを表します。同じ種類の記号であれば複数つけることもできます。</p>
+<p>length は音符の長さを表します。省略すると <code>l</code>
+コマンドで設定した値が使われます。</p>
+<p>最後に <code>&amp;</code>
+をつけるとスラーになり、この音符のノートオフと、直後の音符のノートオンが省略されます。</p>
+</body>
+</html>

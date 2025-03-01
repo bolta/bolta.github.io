@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="波形について">波形について</h1>
+<p>ModDL
+は任意の波形を再生する機構を備えています。これを使うと、オシレータやフィルタを駆使して望みの音色（波形）を得る代わりに、任意の波形を使ってあらゆる音色を直接表現できるほか、音色以外への応用も可能です。</p>
+<p>波形はファイルから読み込むほかに、ソースコード上で直接記述することもできます。</p>
+<p>ModDL
+で波形を使うには、まず波形をシステムに登録し、その後登録した波形を再生する、という手順を踏みます。それぞれの手順を以下で解説します。</p>
+<p>また、音色以外への応用についても解説します。</p>
+<h2 id="波形の登録">波形の登録</h2>
+<p>波形をシステムに登録するには、<code>@waveform</code>
+構築文を使います。</p>
+<p>波形をファイルから読み込むかソースコード上で直接記述するかによって、<code>@waveform</code>
+文の書き方が異なります。</p>
+<h3 id="波形をファイルから読み込む">波形をファイルから読み込む</h3>
+<p>たとえば、<code>my_favorite_waveform.wav</code>
+の波形を読み込むには次のようにします：</p>
+<pre><code>@waveform :wave, &quot;./path/to/my_favorite_waveform.wav&quot;</code></pre>
+<p>ここで <code>:wave</code>
+とあるのは、読み込んだ波形を参照するための変数です。変数
+<code>wave</code> には <code>my_favorite_waveform.wav</code>
+の波形を参照する Waveform
+型の値が割り当たり、その波形を指すのに使えるようになります。</p>
+<p>このように、波形の登録は変数の定義を兼ねることになります。したがって構文が
+<code>@let</code> 文と似ています。</p>
+<div class="note">
+<p>バージョン 0.1.0 現在、読み込めるファイルの形式は量子化レートが 8
+または 16 ビット、チャンネル数が 1 ～ 2 の wav ファイルだけです。</p>
+<p>また、ステレオのファイルを読み込んでも左チャンネルだけがモノラルで再生されます。</p>
+</div>
+<p>読み込んだ波形の振幅は、wav
+ファイルのフォーマットで表せる最も小さな値と最も大きな値が [-1, 1)
+の範囲に収まるよう正規化されます。すなわち、量子化レートが 16
+ビットの場合、値の範囲は [-32768, 32767] であるため、読み込みの際 [-1,
+1) に収まるように全てのサンプルが 32768
+で割られます。同様に量子化レートが 8 ビットの場合は値のサンプルが [-128,
+127] であるため、全てのサンプルが 128 で割られます。</p>
+<h3 id="波形を直接記述する">波形を直接記述する</h3>
+<p>波形をソースコード上で直接記述する場合は、<code>@waveform</code>
+文に次のような連想を記述します：</p>
+<pre><code>@waveform :wave, {
+  data: [ /* 波形を表す数値配列 */ ],
+  sampleRate: /* サンプルレート */,
+}</code></pre>
+<p><code>data</code> は波形の 1 つ 1
+つのサンプルを並べた数値の配列です。<code>sampleRate</code> は、1
+秒間にいくつのサンプルを再生するかの数値で、単位は Hz です。たとえば
+<code>sampleRate</code> が 44100 の場合、<code>data</code>
+の一つ一つの値の有効時間は 1/44100 秒となります。</p>
+<div class="note">
+<p>バージョン 0.1.0
+現在、ステレオの波形を記述することはできません。モノラルの波形のみ記述できます。</p>
+</div>
+<p>wav
+ファイルの内容は、一言で言えば数値の配列とサンプルレートの組なので、それらを上記のように記述すれば情報としては等価なわけです。</p>
+<p>したがって、先ほどの <code>my_favorite_waveform.wav</code>
+の内容をここに直接記述することも可能ですが、それは（少なくとも手で記述するのは）現実的ではありません。なにせ、サンプルレートを
+44100 Hz、波形の長さを 0.5 秒とすると 22050
+個の数値を書かなければならないのです。</p>
+<p><code>data</code>
+を手書きする目的は別のところにあります。その一つは、波形メモリ音源のような、少ないサンプルから成る波形を再生する機構を再現することです。</p>
+<p>たとえば、<code>data</code>
+を次のように手書きすれば、ごく粗い三角波の 1
+周期分を表現することができます。<code>sampleRate</code>
+を決めなければなりませんが、これは後回しにします：</p>
+<pre><code>@waveform :wave, {
+  data: [0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1],
+  sampleRate: /* サンプルレート */,
+}</code></pre>
+<p>波形を手書きする場合、wav
+ファイルを読み込む際のような正規化は行われないので、正規化は自分で行ってやる必要があります。</p>
+<p>先ほどの例では、サンプルが [-4, 4)
+の範囲に分布しているので、全てのサンプルを 4 で割ることで [-1, 1)
+に正規化することができます：</p>
+<pre><code>@waveform :wave, {
+  data: [0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1]~map(s -&gt; s / 4),
+  sampleRate: /* サンプルレート */,
+}</code></pre>
+<h3 id="波形をループさせる">波形をループさせる</h3>
+<p>波形はループさせて再生することができます。上記では三角波の 1
+周期分を記述しましたが、実際にはこれを繰り返さないと三角波になりません。そこでループを設定します。ループの設定は、<code>@waveform</code>
+文で波形を登録する際に行います。</p>
+<p>ループとは、波形の再生位置が「ある位置」に達したら、「ある位置」まで戻すことです。前者の位置を
+<code>endOffset</code>、後者の位置を <code>loopOffset</code>
+と呼び、単位はサンプル（先頭を 0
+として、そこからのサンプル数）です。当然 <code>loopOffset</code> &lt;
+<code>endOffset</code> です。</p>
+<p>今回、波形全体を繰り返せばよいので、<code>endOffset</code>
+は波形のサンプル数である 14、<code>loopOffset</code> は 0
+となります。これらを波形の記述に加えます：</p>
+<pre><code>@waveform :wave, {
+  data: [0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1]~map(s -&gt; s / 4),
+  sampleRate: /* サンプルレート */,
+  endOffset: 14,
+  loopOffset: 0,
+}</code></pre>
+<p>ただし、よいプログラマの皆さんは 14
+という即値を書くことを好みません。意図が不明瞭になることに加え、今後もし配列の長さが変わると対応できないからです。解決方法としては、次のように配列を先に定義することで
+<code>endOffset</code> の直書きを避ける手もありますが：</p>
+<pre><code>@let :data, [0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1 ]~map(s -&gt; s / 4)
+@waveform :wave, {
+  data: data,
+  sampleRate: /* サンプルレート */,
+  endOffset: data~count(),
+  loopOffset: 0,
+}</code></pre>
+<p>もっといい方法があります。ループさせたい部分を入れ子の配列にすると、ループとして解釈されるのです。このとき
+<code>endOffset</code>, <code>loopOffset</code>
+の記述は不要になります：</p>
+<pre><code>@waveform :wave, {
+  data: [[0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1]]~waveMap(s -&gt; s / 4),
+  sampleRate: /* サンプルレート */,
+}</code></pre>
+<p>今回、<code>data</code> 全体が 2
+重の配列になっています。これは配列の全体をループさせることを意味します。</p>
+<p>また、<code>map</code> が <code>waveMap</code>
+に換わっています。<code>waveMap</code>
+は入れ子の配列の構造はそのままに、全ての数値に対して関数を適用します。</p>
+<p>波形をループさせたい場合は、上記のように配列の全体が 2
+重になるか、<code>[0, 1, [2, 3, ...]]</code> のように途中から 2
+重になりますが、このような場合 <code>map</code>
+を単純に使っただけでは全ての数値を正しく処理できません。こんなときでも
+<code>waveMap</code>
+はうまくやってくれ、<code>[0, 1, [2, 3, ...]]~waveMap(s -&gt; s / 4)</code>
+の結果は <code>[0, 0.25, [0.5, 0.75, ...]]</code> となります。</p>
+<p>当然、入れ子がなくても、常に <code>waveMap</code>
+を使って問題ありません。</p>
+<h3
+id="手書き波形のサンプルレートを決める">手書き波形のサンプルレートを決める</h3>
+<p>先ほど後回しにしたサンプルレートについて説明します。</p>
+<p>サンプルレートは、波形を wav ファイルから読み込む場合は wav
+ファイル内に記載されていますが、波形を手書きする場合は明示的に指定する必要があります。それについては後回しにしていましたが、ここでその求め方を説明します。</p>
+<p>前提として、ModDL で波形を演奏する際に基準となる音高は
+<code>o4c</code> となっています。<code>o4c</code>
+の周波数は次のように求められ、値は約 261.63 Hz です：</p>
+<pre><code>// o4a = 440 Hz から 9 半音下げる
+@let :o4c, 440 * 2 ^ (-9 / 12)</code></pre>
+<p>1 秒間に波形の周期をこの回数だけ繰り返せば、<code>o4c</code>
+の音高が得られることになります。</p>
+<p>さて、サンプルレートとは、こちらも単位は周波数と同じ Hz
+ですが、こちらは「波形の周期」ではなく「サンプル」が、1
+秒間に何個あるかを示すものです。したがって、上で求めた <code>o4c</code>
+の周波数に、さらに波形 1
+周期あたりのサンプル数をかけてやれば、サンプルレートが求まることになります。</p>
+<p>波形に含まれるループのサンプル数を求めるために
+<code>waveLoopLength()</code>
+関数が用意されています。これを使ってサンプルレートを求めるコードは以下のようになります（値は約
+3662.76 Hz となります）：</p>
+<pre><code>@waveform :wave,
+  let data = [[0, 1, 2, 3, 2, 1, 0, -1, -2, -3, -4, -3, -2, -1]]~waveMap(s -&gt; s / 4);
+  {
+    data: data,
+    sampleRate: o4c * data~waveLoopLength(),
+  }</code></pre>
+<div class="note">
+<p>TODO 波形配列の短縮記法について</p>
+</div>
+<h3 id="基準の音高を変更する">基準の音高を変更する</h3>
+<p>TODO</p>
+<h2 id="波形の再生">波形の再生</h2>
+<p>システムに登録した波形を再生するには、<code>waveformPlayer</code>
+ノードを使います。</p>
+<p>ただし、<code>waveformPlayer</code>
+はノード定義ではなく関数であり、引数で再生する波形を指定して、ノード定義を得るようになっています。</p>
+<p>wav ファイルから波形を読み込み、<code>waveformPlayer</code>
+で再生するためのコードは次のようになります（もちろん手書きの波形でも同様の方法で再生できます）。<code>waveformPlayer</code>
+は note on で波形を先頭から再生しますが、note off
+では止まらないので、音を止めるためにはエンベロープが必要になる点は注意してください。</p>
+<pre><code>@waveform :wave, &quot;./path/to/my_favorite_waveform.wav&quot;
+@instrument ^a, waveformPlayer(wave) * adsrEnv</code></pre>
+<div class="note">
+<p>note off
+で波形の再生が止まらないのは、エンベロープにリリースがある場合（たとえば
+<code>adsrEnv</code> で <code>release</code> &gt; 0 の場合）、note off
+で再生を止めてしまうとリリース部分が発音されなくなってしまうためです。</p>
+<p>これはオシレータが note off を関知しないのと一貫しています。</p>
+</div>
+<p><code>waveformPlayer</code>
+は再生する波形を演奏中に切り替えることができます。方法は以下の通りです：</p>
+<ol type="1">
+<li><code>waveformPlayer</code> に <code>@</code>
+演算子でレジスタを割り当てます。</li>
+<li>割り当てたレジスタに対して MML の <code>y</code> コマンドで Waveform
+型の値を設定します。設定する値には <code>= ;</code> 構文を使い、Waveform
+型の変数を参照します。</li>
+</ol>
+<pre><code>@waveform :wave1, &quot;./path/to/my_favorite_waveform.wav&quot;
+@waveform :wave2, &quot;./path/to/my_other_favorite_waveform.wav&quot;
+@instrument ^a, waveformPlayer(wave1)@w * adsrEnv
+
+a o4l8v15
+a cdefg2
+a yw,=wave2;
+a cdefg2</code></pre>
+<h2 id="波形の応用">波形の応用</h2>
+<p>ここまでの波形の使い方は、音色を表現するためのものでした。言葉を換えれば、波形をオシレータの代わりとして使ってきました。</p>
+<p>しかし、波形の使い途はそれだけではありません。</p>
+<h3 id="波形を使ったエンベロープ">波形を使ったエンベロープ</h3>
+<p>次の例では、波形を使ってエンベロープを表現しています。その形状は、既存のエンベロープジェネレータで実現することは困難と思われる複雑なものです：</p>
+<pre><code>@let :o4c, 440 * 2 ^ (-9 / 12)
+
+@waveform :env, {
+  data: x[fdb9fdb9fdb9fdb9[5]]~waveMap(x -&gt; x / 15),
+  sampleRate: 60,
+}
+@instrument ^a, pulseOsc * o4c | waveformPlayer(env) * adsrEnv
+
+a o2l2v15 q4
+a c&gt;c&gt;c&gt;c&gt;c&gt;c&gt;c</code></pre>
+<p>注目すべき点がいくつかあります。</p>
+<p>まず、波形の <code>sampleRate</code> を 60
+としつつ、<code>waveformPlayer</code> に供給する周波数は基準である
+<code>o4c</code>
+に固定しています。これにより、エンベロープの波形はオシレータに与えられる周波数とは関係なく一定の速度（60
+fps）で再生されます。</p>
+<div class="note">
+<p>逆に、エンベロープの再生速度にあえてオシレータの周波数を作用させるような構成も可能です。こうすると、たとえば「低い音ほど長く、高い音ほど短くなる」など、音の高さに依存してエンベロープを変化させることができます。</p>
+</div>
+<p>また、<code>waveformPlayer</code>
+によるエンベロープとは別に、「本物」のエンベロープ、<code>adsrEnv</code>
+も使っています。これは先にも述べたように、<code>waveformPlayer</code>
+には音を止める能力がないためです。ここでの <code>adsrEnv</code> は note
+off で音を止めるためだけに使われています。</p>
+<div class="note">
+<p>ちなみにこの構成は、<code>waveformPlayer</code>
+を使ったリングモジュレーションと解釈することもできます。<code>waveformPlayer</code>
+の出力が可聴域内の周波数を持つ周期的なものであれば、リングモジュレーションの効果が得られるはずです。</p>
+<p>エンベロープとリングモジュレーションは、その構成としてはほぼ同じであるにもかかわらず、得られる効果が全く違うのは興味深いことです。</p>
+</div>
+<h3 id="波形を使った周波数エフェクト">波形を使った周波数エフェクト</h3>
+<p>次は、波形を使った周波数エフェクトの例です。こちらも挙動は複雑で、アタックの後しばらく経ってからビブラートがかかり、その後ビブラートは次第に深くゆっくりになります：</p>
+<pre><code>@let :o4c, 440 * 2 ^ (-9 / 12)
+
+@let :bend, semi -&gt; =f=&gt; f * 2 ^ (semi / 12)
+@waveform :vib, {
+  data: x[00000000000000000000 10&lt;10&gt;1210&lt;1210&gt;123210&lt;123210&gt;[12343210&lt;12343210&gt;]],
+  sampleRate: 60,
+}
+@instrument ^a, bend(0.1 * o4c | waveformPlayer(vib)) | pulseOsc { duty: 0.25 } * adsrEnv { 0.2 }
+
+a o2l1v15
+a c&gt;c&gt;c&gt;c&gt;c&gt;c&gt;c</code></pre>
+<p>先に定義している <code>bend</code>
+は、半音単位で周波数を変調する周波数エフェクトですが、その変調の大きさを
+<code>waveformPlayer</code> で制御しています。係数 <code>0.1</code>
+をかけることで、波形における 1 の変位が 0.1 半音（10
+セント）の変調になるようにしています。</p>
+<div class="note">
+<p>こちらも <code>WaveformPlayer</code>
+を使った周波数変調（FM）と解釈することもできます。</p>
+<p>ビブラートと周波数変調も、やはり構成的には同じものです。</p>
+</div>
+</body>
+</html>

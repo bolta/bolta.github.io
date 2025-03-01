@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="組み込みライブラリ">組み込みライブラリ</h1>
+<ul class="toc">
+<li>
+<details open="open">
+<summary>
+<a href="constants/toc.html">定数</a>
+</summary>
+<ul class="toc">
+<li>
+<a href="constants/true.html">true</a>
+</li>
+<li>
+<a href="constants/false.html">false</a>
+</li>
+<li>
+<a href="constants/pi.html">pi</a>
+</li>
+<li>
+<a href="constants/tau.html">tau</a>
+</li>
+<li>
+<a href="constants/e.html">e</a>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<details open="open">
+<summary>
+<a href="functions/toc.html">関数</a>
+</summary>
+<ul class="toc">
+<li>
+数学
+<ul class="toc">
+<li>
+<a href="functions/sqrt.html">sqrt</a>
+</li>
+<li>
+<a href="functions/cbrt.html">cbrt</a>
+</li>
+<li>
+<a href="functions/log.html">log</a>
+</li>
+<li>
+<a href="functions/log10.html">log10</a>
+</li>
+<li>
+<a href="functions/sin.html">sin</a>
+</li>
+<li>
+<a href="functions/cos.html">cos</a>
+</li>
+<li>
+<a href="functions/tan.html">tan</a>
+</li>
+<li>
+<a href="functions/asin.html">asin</a>
+</li>
+<li>
+<a href="functions/acos.html">acos</a>
+</li>
+<li>
+<a href="functions/atan.html">atan</a>
+</li>
+<li>
+<a href="functions/abs.html">abs</a>
+</li>
+<li>
+<a href="functions/signum.html">signum</a>
+</li>
+<li>
+<a href="functions/floor.html">floor</a>
+</li>
+<li>
+<a href="functions/ceil.html">ceil</a>
+</li>
+<li>
+<a href="functions/round.html">round</a>
+</li>
+<li>
+<a href="functions/trunc.html">trunc</a>
+</li>
+</ul>
+</li>
+<li>
+コレクション
+<ul class="toc">
+<li>
+<a href="functions/count.html">count</a>
+</li>
+</ul>
+</li>
+<li>
+配列
+<ul class="toc">
+<li>
+<a href="functions/at.html">at</a>
+</li>
+<li>
+<a href="functions/map.html">map</a>
+</li>
+<li>
+<a href="functions/filter.html">filter</a>
+</li>
+<li>
+<a href="functions/reduce.html">reduce</a>
+</li>
+<li>
+<a href="functions/flat.html">flat</a>
+</li>
+<li>
+<a href="functions/flatMap.html">flatMap</a>
+</li>
+<li>
+<a href="functions/sum.html">sum</a>
+</li>
+</ul>
+</li>
+<li>
+連想
+<ul class="toc">
+<li>
+<a href="functions/keys.html">null</a>
+</li>
+<li>
+<a href="functions/containsKey.html">null</a>
+</li>
+</ul>
+</li>
+<li>
+波形
+<ul class="toc">
+<li>
+<a href="functions/waveMap.html">null</a>
+</li>
+<li>
+<a href="functions/waveLoopLength.html">null</a>
+</li>
+<li>
+<a href="functions/waveIsLooped.html">null</a>
+</li>
+</ul>
+</li>
+<li>
+型
+<ul class="toc">
+<li>
+<a href="functions/type.html">type</a>
+</li>
+<li>
+<a href="functions/toString.html">toString</a>
+</li>
+</ul>
+</li>
+<li>
+ファイル分割
+<ul class="toc">
+<li>
+<a href="functions/import.html">null</a>
+</li>
+</ul>
+</li>
+<li>
+ユーティリティ
+<ul class="toc">
+<li>
+<a href="functions/print.html">print</a>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+</li>
+<li>
+<details open="open">
+<summary>
+<a href="node_defs/toc.html">ノード定義</a>
+</summary>
+<ul class="toc">
+<li>
+波形生成
+<ul class="toc">
+<li>
+<a href="node_defs/pulseOsc.html">pulseOsc</a>
+</li>
+<li>
+<a href="node_defs/sineOsc.html">sineOsc</a>
+</li>
+<li>
+<a href="node_defs/sawOsc.html">sawOsc</a>
+</li>
+<li>
+<a href="node_defs/triangleOsc.html">triangleOsc</a>
+</li>
+<li>
+<a href="node_defs/phase.html">phase</a>
+</li>
+<li>
+<a href="node_defs/uniformNoise.html">uniformNoise</a>
+</li>
+<li>
+<a href="node_defs/waveformPlayer.html">waveformPlayer</a>
+</li>
+</ul>
+</li>
+<li>
+フィルタ
+<ul class="toc">
+<li>
+<a href="node_defs/bpf.html">bpf</a>
+</li>
+<li>
+<a href="node_defs/hpf.html">hpf</a>
+</li>
+<li>
+<a href="node_defs/lpf.html">lpf</a>
+</li>
+</ul>
+</li>
+<li>
+エンベロープジェネレータ
+<ul class="toc">
+<li>
+<a href="node_defs/adsrEnv.html">adsrEnv</a>
+</li>
+<li>
+<a href="node_defs/expEnv.html">expEnv</a>
+</li>
+</ul>
+</li>
+<li>
+遷移
+<ul class="toc">
+<li>
+<a href="node_defs/glide.html">null</a>
+</li>
+</ul>
+</li>
+<li>
+エフェクト
+<ul class="toc">
+<li>
+Lo-Fi
+<ul class="toc">
+<li>
+<a href="node_defs/quantCrush.html">null</a>
+</li>
+<li>
+<a href="node_defs/sampleCrush.html">null</a>
+</li>
+<li>
+<a href="node_defs/nesFreq.html">null</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+</li>
+</ul>
+</body>
+</html>

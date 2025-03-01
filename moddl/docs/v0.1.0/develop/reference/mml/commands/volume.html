@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command-v"><span class="title-type">MML command
+</span><code>V</code></h1>
+<p>ボリュームを設定します。</p>
+<h2 id="書式">書式</h2>
+<p><code>V</code>&lt;value&gt;</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>value</p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>ボリュームを指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>広い意味で「音量」に相当するものには「ベロシティ」（<code>v</code>）と「ボリューム」（<code>V</code>）の
+2
+種類があります。これらは現在のバージョンでは同じものですが、異なる用途に使い分けることが想定されています。</p>
+<p>ボリュームは、ミキシングにおけるトラックの音の大きさを表します。</p>
+<p>これに対してベロシティは、演奏における発音の強さを表します。</p>
+<p>ボリュームの基準値は 15 であり、<code>V15</code>
+でボリュームを一度も指定していないときと同じ音量になります。これよりも小さい値を指定すると音量は小さくなり、0
+で無音になります。</p>
+</body>
+</html>

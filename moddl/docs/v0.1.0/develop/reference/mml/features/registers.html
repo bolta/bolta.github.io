@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="モジュールのレジスタについて">モジュールのレジスタについて</h1>
+<p>モジュール定義内に記述する数値を、<strong>レジスタ</strong>に変更することができます。</p>
+<p>レジスタは可変の数値を保持するノードであり、その値は MML の
+<code>y</code> コマンドで変更することができます。</p>
+<p>モジュール内部の様々な値を演奏中に操作できることで、より多彩な演奏表現を実現できるようになります。</p>
+<h2 id="レジスタの定義">レジスタの定義</h2>
+<p>モジュール定義の際、数値に後置 <code>@</code>
+演算子でラベルを設定すると、その数値はレジスタになります。</p>
+<p>次の例では、インストゥルメントのモジュール定義に <code>d</code> と
+<code>a</code> という 2 つのレジスタを定義しています。<code>d</code>
+の初期値は <code>0,5</code>、<code>a</code> の初期値は <code>0</code>
+であり、これらの値を演奏中に <code>y</code>
+コマンドで変更しています：</p>
+<pre><code>@instrument ^a, pulseOsc { duty: 0.5@d } * adsrEnv { attack: 0@a }
+
+a o4l4
+
+a cde
+a yd,0.25 // pulseOsc の duty を変更
+a cde
+a ya,0.1 // adsrEnv の attack を変更
+a cde</code></pre>
+<p>レジスタのラベルには任意の識別子を使うことができます。上記の例では 1
+文字ですが、長くてもかまいません。またノードのパラメータ名と同じ
+<code>duty</code>, <code>attack</code> でもかまいません。</p>
+<h2
+id="レジスタ名へのプレフィックス付与">レジスタ名へのプレフィックス付与</h2>
+<p>レジスタの名前が衝突してしまうことがあります。</p>
+<p>たとえば、1 つのモジュール定義を 2
+回使う場合を考えます。今度の例では、先ほどのインストゥルメントと同様の定義を変数に設定して、2
+回使っています：</p>
+<pre><code>@let :m, pulseOsc { duty: 0.5@d } * adsrEnv { attack: 0@a }
+@instrument ^a, m + 0.5 * =freq=&gt; (2 * freq) | m</code></pre>
+<p>ここでは モジュール定義 <code>m</code> を 2
+回使っているため、<code>m</code> の中で定義したレジスタ <code>d</code>
+と <code>a</code> は 2
+つずつ存在することになります。この状態では、<code>y</code>
+コマンドでレジスタの値を変更すると、両方に作用してしまいます。</p>
+<p>これを解決するために、レジスタ名にプレフィックスを設定することができます：</p>
+<pre><code>@let :m, pulseOsc { duty: 0.5@d } * adsrEnv { attack: 0@a }
+@instrument ^a, m@@m1 + 0.5 * =freq=&gt; (2 * freq) | m@@m2</code></pre>
+<p>今回はモジュール定義 <code>m</code> を参照する際に、<code>@@m1</code>
+と <code>@@m2</code> を付与しています。こうすると、1 回目の
+<code>m</code> のレジスタには <code>m1.</code>
+というプレフィックスが付与されます。同様に 2 回目の方には
+<code>m2.</code> が付与されます。</p>
+<p>これによって、次のようにレジスタを区別できるようになります：</p>
+<pre><code>a o4l4
+
+a cde
+a ym1.d,0.25 // m1 の pulseOsc の duty を変更
+a cde
+a ym1.a,0.1 // m1 の adsrEnv の attack を変更
+a cde
+a ym2.d,0.125 // m2 の pulseOsc の duty を変更
+a cde
+a ym2.a,0.5 // m2 の adsrEnv の attack を変更
+a cde</code></pre>
+<p>なお、レジスタの名前空間はトラックごとに独立しているので、同じ名前のレジスタが異なるトラックにあることは問題になりません。</p>
+<h2 id="レジスタの取捨選択と名称変更">レジスタの取捨選択と名称変更</h2>
+<p>レジスタ名の衝突を回避するには他の方法もあります。ここでは参照するレジスタを取捨選択したり、設定されていた名前を変更したりすることで衝突を防ぐ方法を紹介します。</p>
+<p>ここでは、モジュール定義 <code>m</code> があり、レジスタ
+<code>r</code>, <code>s</code>, <code>t</code>, <code>u</code>
+を含んでいるとします。</p>
+<p>このとき、次のようにすると、<code>m</code>
+に含まれるレジスタのうち、<code>r</code>, <code>s</code>
+だけを参照することができます。このとき <code>t</code>, <code>u</code>
+は参照できなくなります：</p>
+<pre><code>m#(r, s)</code></pre>
+<p>逆に <code>r</code>, <code>s</code>
+を除外することもできます。このときは <code>t</code>, <code>u</code>
+だけを参照できます：</p>
+<pre><code>m#(!r, !s)</code></pre>
+<p>参照するレジスタの名前を変更するには次のようにします。</p>
+<p>次の例では、<code>r</code> を <code>rrr</code>
+という別の名前で参照します。同様に <code>t</code> は <code>ttt</code>
+として参照します。<code>s</code> はそのまま使います。<code>u</code>
+は使いません。こうすれば <code>r</code>, <code>t</code>, <code>u</code>
+は衝突しなくなります：</p>
+<pre><code>m#(r-&gt;rrr, s, t-&gt;ttt)</code></pre>
+<p>TODO サンプル</p>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command-y"><span class="title-type">MML command
+</span><code>y</code></h1>
+<p>トラックで定義されたレジスタに値を設定します。</p>
+<h2 id="書式">書式</h2>
+<p><code>y</code>&lt;register
+path&gt;[<code>:</code>&lt;key&gt;]<code>,</code>&lt;value&gt;</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>register path</p>
+</td>
+<td>
+<p>Path</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>設定する対象のレジスタのパスを指定します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>key</p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p>ノードの種別によって固有のデフォルトキーが使われます。</p>
+</td>
+<td>
+<p>サブレジスタのキーを指定します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>value</p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>設定する値を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>トラック定義中で <code>@</code>
+演算子でラベルを付与した値は<strong>レジスタ</strong>となり、演奏中に
+<code>y</code> コマンドで値を設定できるようになります。</p>
+<p>以下の例では ADSR エンベロープのアタックタイムに <code>a</code>
+というラベルを付与し、演奏中に値を変更しています：</p>
+<pre><code>@instrument ^a, pulseOsc * adsrEnv { attack: 0@a }
+
+a cder
+a ya,0.25 // アタックタイムを 0.25 秒に設定
+a cder</code></pre>
+<p>ラベルは、プレフィックスを付与して衝突を回避することができます。</p>
+<p>プレフィックスを付与するには <code>@@</code> 演算子を使います。</p>
+<p>プレフィックスのついたラベルを指定するには、プレフィックスとラベルを
+<code>.</code>
+で区切ります。プレフィックスを多重につけることもできます。</p>
+<pre><code>@let :env, adsrEnv { attack: 0@a }
+
+@instrument ^a, (pulseOsc * env@@e1 + sawOsc * env@@e2) / 2
+
+a cder
+a ye1.a,0.25 // パルス波のアタックタイムを 0.25 秒に設定
+a cder
+a ye1.a,0 // パルス波のアタックタイムを 0 秒に設定
+a ye2.a,0.25 // のこぎり波のアタックタイムを 0.25 秒に設定
+a cder</code></pre>
+<p>レジスタにするノードの種類によっては、複数の<strong>サブレジスタ</strong>を持ち、それぞれに値を設定できる場合があります。それらを区別するには、プレフィックスとラベルの後にサブレジスタのキーを指定します。キーを省略すると、ノードの種類ごとに定義されたデフォルトキーが使われます。</p>
+<div class="caution">
+<p>これ以降の <code>waveformPlayer</code>
+に関する記述はまだ実装されていません。ver. 0.1 時点では
+<code>waveformPlayer</code> のサブレジスタは <code>waveform</code>
+のみです。説明の都合上、未実装の仕様に言及しています。</p>
+<p>この仕様は変わる可能性があります。</p>
+</div>
+<p>たとえば、<code>waveformPlayer</code> には <code>waveform</code>,
+<code>currentOffset</code>, <code>startOffset</code>,
+<code>endOffset</code>, <code>loopOffset</code> のキーを持つ 5
+つのサブレジスタがあり、デフォルトキーは <code>waveform</code>
+です。</p>
+<pre><code>@waveform :w1, &quot;./path/to/some_waveform.wav&quot;
+@waveform :w2, &quot;./path/to/another_waveform.wav&quot;
+@instrument ^a, waveformPlayer(w1)@wp * adsrEnv
+
+a cder
+a ywp,=w2; // w2 が指す波形に切り替える。ywp:waveform,=w2; と同じ
+a cder
+a ywp:startOffset,100 // 発音を開始するオフセットを 100 サンプルに設定する
+a cder</code></pre>
+<p>一方、数値についてはデフォルトキーは <code>value</code>
+であり、前出の <code>ya,0.25</code> は <code>ya:value,0.25</code>
+と同じ意味になります。ただし数値には <code>value</code>
+以外のキーはないので、キーを明示する必要はありません。</p>
+<p>TODO 「レジスタ」「サブレジスタ」「ラベル」「キー」の用語を整理</p>
+<p>TODO <code>y</code>
+コマンドの仕様として記述するよりも、レジスタの説明として別文書にすべきかも</p>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="construction-instrument"><span class="title-type">construction
+</span>instrument</h1>
+<p>インストゥルメントトラックを定義します。</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>tracks</code></p>
+</td>
+<td>
+<p>TrackSet</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>定義する対象のトラックを指定します。</p>
+<p>複数トラックを指定した場合、その各々のトラックに対して同じ構成のインストゥルメントが生成されます。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>instrument</code></p>
+</td>
+<td>
+<p>ModuleDef</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>トラックに割り当てるインストゥルメントを定義します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<div class="sample">
+<div class="code">
+<pre><code>@instrument ^ab, pulseOsc { duty: 0.25 } | lpf { 3000 }* adsrEnv { initial: 0.5, attack: 0.1, decay: 1, sustain: 0.3, release: 0.3 }
+
+</code></pre>
+</div>
+<div class="desc">
+<p>トラック a, b に、<code>pulseOsc</code>, <code>lpf</code>,
+<code>adsrEnv</code> で構成されるインストゥルメントを設定します。</p>
+</div>
+</div>
+</body>
+</html>

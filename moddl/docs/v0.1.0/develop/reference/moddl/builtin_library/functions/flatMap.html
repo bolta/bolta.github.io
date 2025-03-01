@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="function-flatmap"><span class="title-type">function
+</span>flatMap</h1>
+<p>配列の各要素に関数を適用して任意個の値を含む配列に変換し、その配列を全て連結した
+1 次元の配列を得ます。</p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>SrcElem</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>DestElem</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>source</code></p>
+</td>
+<td>
+<p>SrcElem[]</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>変換元の配列。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>mapper</code></p>
+</td>
+<td>
+<p>SrcElem -&gt; DestElem[]</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p><code>source</code>
+の各要素に適用し、結果の配列の要素となる値の配列を生成する関数。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>DestElem[]</p>
+</td>
+<td>
+<p>結果の配列。</p>
+</td>
+</tr>
+</table>
+<h2 id="使用例">使用例</h2>
+<pre><code>[0, 1, 2, 3, 4]~flatMap(x -&gt; [x, x ^ 2, x ^ 3])
+// ==&gt; [0, 0, 0, 1, 1, 1, 2, 4, 8, 3, 9, 27, 4, 16, 64]
+
+// 下記と同じ
+[0, 1, 2, 3, 4]~map(x -&gt; [x, x ^ 2, x ^ 3])~flat()</code></pre>
+<h2 id="詳細">詳細</h2>
+<p>この関数は、<code>map</code> 関数の結果に <code>flat</code>
+関数を適用するのと同じです。</p>
+</body>
+</html>

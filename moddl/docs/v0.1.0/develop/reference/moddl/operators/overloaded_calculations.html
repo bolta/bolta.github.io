@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="オーバーロードされた演算">オーバーロードされた演算</h1>
+<p>ModDL
+における数値演算を行う演算子や関数は全てオーバーロードされており、引数の型に応じて異なる演算を行うようになっています。これは、効率的な数値演算と、構造の簡潔な記述とを両立することを目的としたものです。</p>
+<p>オーバーロードのあり方は演算の種類ごとに異なっています。以下では演算の種類ごとに、与えた引数の型と、それに応じた演算子・関数のふるまいについて説明します。引数の型が以下で説明するもの以外の場合はエラーとなります。</p>
+<h2
+id="多くの数値演算演算子および数値関数">多くの数値演算（演算子および数値関数）</h2>
+<p>数値演算を行う演算子と関数の多くは、「全ての引数が Number
+の場合」と、「引数の少なくとも 1 つが ModuleDef
+の場合」とで異なる演算を行うようになっています。</p>
+<p>これに該当するのは以下の演算です：</p>
+<ul>
+<li>2 項演算子 <code>^</code>, <code>*</code>, <code>/</code>,
+<code>%</code>, <code>+</code>, <code>-</code>, <code>&lt;</code>,
+<code>&lt;=</code>, <code>=</code>, <code>!=</code>, <code>&gt;=</code>,
+<code>&gt;</code>, <code>&amp;&amp;</code>, <code>||</code>
+<ul>
+<li>ただし、2 項演算子の <code>+</code>
+については、さらに特殊なオーバーロードが存在します。詳しくは本記事の「演算子
+<code>+</code>」を参照してください。</li>
+</ul></li>
+<li>単項演算子 <code>!</code>, <code>-</code>, <code>+</code></li>
+<li>全ての数値関数。<code>log</code>, <code>sin</code>,
+<code>abs</code>, <code>round</code> 等々</li>
+</ul>
+<p>引数の型に応じた動作を以下に説明します。</p>
+<h3 id="引数が全て-number-の場合">引数が全て Number の場合</h3>
+<p>引数が全て Number であれば、通常の数値演算が行われます。</p>
+<p>たとえば、<code>@let :answer, 6 * 7</code> という文があれば、変数
+<code>answer</code> は <code>6 * 7</code> の結果である <code>42</code>
+になります。</p>
+<p>この演算は、定義フェーズで ModDL
+インタプリタによって行われます。演奏開始時にはすでに値が確定しているため、演奏フェーズでサンプルごとに演算が行われるようなことはありません。</p>
+<p>他の演算、たとえば <code>!</code>
+のような単項演算であったり、<code>sin</code> や <code>floor</code>
+のような関数で表現される演算であっても扱いは同様です。<code>! true</code>
+は定義フェーズで <code>false</code>（= <code>-1</code>）となり、同様に
+<code>sin(0)</code> は <code>0</code> となります。</p>
+<h3 id="引数の少なくとも-1-つが-moduledef-の場合">引数の少なくとも 1
+つが ModuleDef の場合</h3>
+<p>一方、演算に ModuleDef が関係する場合は、結果も ModuleDef
+になります。</p>
+<p>たとえば、<code>@let :output, sineOsc + sawOsc</code>
+という文を考えます。ここでは先ほどの例と異なり、<code>+</code>
+の引数はどちらも ModuleDef となっています（NodeFactory も ModuleDef
+の一種です）。この場合、演算の結果は「入力として <code>sineOsc</code> と
+<code>sawOsc</code>
+の出力を受け取り、それらを足し合わせたものを出力するノードの
+NodeStructure」となります。</p>
+<p><img src="./node_structure_calculation.png" width=50%></p>
+<p>つまり ModuleDef
+に対する演算では、実際の数値演算は定義フェーズではなく演奏フェーズでサンプルごとに行われます。</p>
+<p>引数の一方だけが ModuleDef で、もう一方は Number
+である場合も要領は同じです。この場合、Number の側が「定数値を出力する
+NodeFactory」に変換されます。たとえば
+<code>@let :output, sineOsc * 2</code> では、結果は以下のような
+ModuleDef になります：</p>
+<p><img src="./node_structure_and_number_calculation.png" width=50%></p>
+<h2 id="ユーザ定義関数">ユーザ定義関数</h2>
+<p>ここまでは組み込みの演算子や関数について説明しましたが、実はユーザが定義した関数も同様のふるまいをします。</p>
+<p>たとえば <code>@let :dist, (x, y) =&gt; sqrt(x ^ 2 + y + 2)</code>
+という関数を考えます。</p>
+<p>この関数に与える <code>x</code> と <code>y</code> がともに Number
+であれば、全ての演算（累乗、加算、平方根）は数値演算となります。したがって定義フェーズだけで計算が完結し、結果は
+Number となります。</p>
+<p>そうでない場合、たとえば <code>x</code> に Number ではなく ModuleDef
+を与えた場合を考えます。このとき、<code>x ^ 2</code> の結果は Number
+ではなく ModuleDef になります。すると、それに対する加算である
+<code>x ^ 2 + y ^ 2</code> も（<code>y ^ 2</code> が Number か ModuleDef
+かに依らず）NodeStructure
+になり、さらにはそれを引数とする、最終結果である
+<code>sqrt(x ^ 2 + y ^ 2)</code> までも ModuleDef になります。</p>
+<p><code>y</code> を ModuleDef にした場合も当然同じ結果になるので、結局
+<code>dist</code> 関数は組み込みの <code>+</code> や <code>sin</code>
+と全く同様にオーバーロードされていることになります。</p>
+<p>このように、基本的な数値演算がオーバーロードされていることに端を発して、より複雑な計算においても自動的にオーバーロードのメリットを享受することができます。</p>
+<h2 id="演算子">演算子 <code>+</code></h2>
+<p>演算子 <code>+</code> については、前述の Number か ModuleDef
+かによるオーバーロードに加えて、次のようなオーバーロードが存在します。</p>
+<h3 id="少なくとも一方の引数が-string-の場合">少なくとも一方の引数が
+String の場合</h3>
+<p>String でない引数を String
+に変換した上で、両辺の文字列を結合します。</p>
+<pre><code>&quot;foo&quot; + &quot;bar&quot; ==&gt; &quot;foobar&quot;
+42 + &quot;01&quot; ==&gt; &quot;4201&quot;
+&quot;01&quot; + 42 ==&gt; &quot;0142&quot;</code></pre>
+<h3 id="両辺が-array-の場合">両辺が Array の場合</h3>
+<p>両辺の配列を結合します。</p>
+<pre><code>[1, 2, 3] + [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;] ==&gt; [1, 2, 3, &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code></pre>
+<h3 id="両辺が-assoc-の場合">両辺が Assoc の場合</h3>
+<p>両辺の連想をマージします。両辺に同じキーが含まれる場合は、右辺の値が優先されます。</p>
+<pre><code>{ foo: 42, bar: 99 } + { foo: &quot;hoge&quot;, baz: &quot;pita&quot; } ==&gt; { foo: &quot;hoge&quot;, bar: 99, baz: &quot;pita&quot; }</code></pre>
+<h2 id="if-式"><code>if</code> 式</h2>
+<p><code>if</code> 式は、条件式、<code>then</code> 式、<code>else</code>
+式の 3
+つの引数を取りますが、このうち条件式の型によって<strong>のみ</strong>オーバーロードされています。</p>
+<p>条件式が Number の場合、その値を真偽値として解釈したときに真であれば
+<code>then</code> 式の値、偽であれば <code>else</code>
+式の値が結果となります。<code>then</code> 式と <code>else</code>
+式の型については検証・変換されません（両者の型が異なっていてもかまいません）。この演算は定義フェーズで行われます。</p>
+<p>条件式が ModuleDef の場合、<code>then</code>, <code>else</code>
+式もそれぞれ ModuleDef として解釈され（Number であれば ModuleDef
+に変換されます）、条件式の値を真偽値として解釈したときに真であれば
+<code>then</code> 式の出力、偽であれば <code>else</code>
+式の出力を出力する ModuleDef
+が結果となります。この場合、条件演算は演奏フェーズでサンプルごとに行われます。</p>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-adsrenv"><span class="title-type">node def
+</span>adsrEnv</h1>
+<p>アタックタイム・ディケイタイム・サステインレベル・リリースタイムの 4
+つのパラメータで制御されるエンベロープです。</p>
+<p>ModDL では、さらに初期レベルのパラメータを追加しています。</p>
+<h2 id="主入力">主入力</h2>
+<p>入力はありません。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>必須/省略時</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>attack</code></td>
+<td><code>0</code></td>
+<td>アタックタイムです。<br>ノートオン後、出力値が 1
+になるまでの時間を秒で指定します。</td>
+</tr>
+<tr class="even">
+<td><code>decay</code></td>
+<td><code>0</code></td>
+<td>ディケイタイムです。<br>アタックタイム経過後、値がサステインレベルに変化するまでの時間を秒で指定します。</td>
+</tr>
+<tr class="odd">
+<td><code>sustain</code></td>
+<td><code>1</code></td>
+<td>サステインレベルです。<br>アタックタイム・ディケイタイム経過後の出力値を指定します。</td>
+</tr>
+<tr class="even">
+<td><code>release</code></td>
+<td><code>0</code></td>
+<td>リリースタイムです。<br>ノートオフ後、出力値が 0
+になるまでの時間を秒で設定します。</td>
+</tr>
+<tr class="odd">
+<td><code>initial</code></td>
+<td><code>1</code></td>
+<td>初期レベルです。<br>ノートオンの瞬間のレベルを指定します。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="イベント">イベント</h2>
+<table>
+<tr>
+<th>
+<p>種別</p>
+</th>
+<th>
+<p>キー</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Note</p>
+</td>
+<td>
+</td>
+<td>
+<p>ノートオンでアタックを開始し、ノートオフでリリースを開始します。</p>
+</td>
+</tr>
+</table>
+<h2 id="出力">出力</h2>
+<p>ノートオン/オフからの時間に応じたエンベロープの振幅を出力します。</p>
+<h3 id="範囲">範囲</h3>
+<p>[0, 1]</p>
+<h2 id="詳細">詳細</h2>
+<p>ノートオンの瞬間 <code>initial</code> を出力します。</p>
+<p>そこから出力は線形に増加し、<code>attack</code> 秒後に最大値 1
+を出力します。</p>
+<p>その後 <code>decay</code> 秒をかけて、出力は線形に
+<code>sustain</code> まで減少します。</p>
+<p>ノートオフを受け取ると、その瞬間から <code>release</code>
+秒をかけて出力は線形に減少し、その後 0 になります。</p>
+<p><img src="./adsrEnv.png" width=50%></p>
+<div class="sample">
+<div class="code">
+<pre><code>pulseOsc * adsrEnv { attack: 0.5, release: 0.25 }
+
+</code></pre>
+</div>
+<div class="desc">
+<p>オシレータに対してエンベロープを適用します。</p>
+</div>
+</div>
+<div class="caution">
+<p>次のように、エンベロープをパイプで接続しないでください：</p>
+<div class="sample">
+<div class="code">
+<pre><code>pulseOsc | adsrEnv { attack: 0.5, release: 0.25 }
+
+</code></pre>
+</div>
+<div class="desc">
+<p>オシレータの出力にエンベロープを適用することを意図していますが、そうはなりません。</p>
+</div>
+</div>
+<p>エンベロープは「入力にエンベロープを適用するエフェクト」ではなく、「エンベロープを出力するジェネレータ」であり、入力を取りません。
+エンベロープをエフェクトのように接続すると、オシレータの出力は無視され、結果として出力は単なるエンベロープの値になってしまいます（音としては聞こえません）。
+エンベロープを適用するには <code>*</code> を使ってください。</p>
+</div>
+</body>
+</html>

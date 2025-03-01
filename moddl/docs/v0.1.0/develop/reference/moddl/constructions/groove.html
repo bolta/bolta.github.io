@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="construction-groove"><span class="title-type">construction
+</span>groove</h1>
+<p>グルーヴトラックを定義します。</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>controlTrack</code></p>
+</td>
+<td>
+<p>TrackSet</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>定義する対象のトラックを指定します。</p>
+<p>ここで指定するトラックは 1 つでなければなりません。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>targetTracks</code></p>
+</td>
+<td>
+<p>TrackSet</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>グルーヴを適用する対象のトラックを指定します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>body</code></p>
+</td>
+<td>
+<p>Function</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>グルーヴを適用する対象のトラックを指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>このトラックは、グルーヴをコントロールする役割を持ちます。</p>
+</body>
+</html>

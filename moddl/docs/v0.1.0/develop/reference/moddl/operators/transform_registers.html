@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="operator"><span class="title-type">operator </span>#( )</h1>
+<p>モジュール定義に含まれるレジスタ定義を取捨選択・名称変更します。</p>
+<h2 id="記法">記法</h2>
+<p><code>moduleDef#(rule1, rule2, ...)</code></p>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>moduleDef</code></p>
+</td>
+<td>
+<p>ModuleDef | Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>モジュール定義。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>rule1</code>, <code>rule2</code>, …</p>
+</td>
+<td>
+<p>(Rule)</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>レジスタ定義を取捨選択・名称変更するルール（式ではありません）。</p>
+<p>ルールの書式は「詳細」を参照してください。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>ModuleDef</p>
+</td>
+<td>
+<p><code>moduleDef</code>
+に含まれるレジスタ定義を変換した新たなモジュール定義。</p>
+</td>
+</tr>
+</table>
+<h2 id="使用例">使用例</h2>
+<pre><code>// レジスタ c, d, q が定義されている
+@let :mod1, pulseOsc { duty: 0.5@d } | lpf { freq: 10000@c, q: 10@q }
+// レジスタ a, d が定義されている
+@let :mod2, adsrEnv { attack: 0@a, decay: 0@d }
+
+// 両方をそのまま使うと d が衝突してしまう
+@let :synth, mod1 * mod2
+
+// 衝突回避の例 1：mod1 の d を使わない。
+// レジスタ a, c, d, q が定義され、d は adsrEnv の decay に対応する
+@let :synth, mod1#(! d) * mod2
+
+// 衝突回避の例 2：mod1 については c と q を使う。
+// 結果は上と同じ
+@let :synth, mod1#(c, q) * mod2
+
+// 衝突回避の例 3：mod2 の d を名称変更する。
+// レジスタ a, c, d, de, q が定義され、d は pulseOsc の duty に、de は adsrEnv の decay に対応する
+@let :synth, mod1 * mod2#(d -&gt; de)</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>rule1</code>, <code>rule2</code>, …
+には以下のルールを記述することができます。</p>
+<p>以下で reg, reg1, reg2
+はレジスタ名を表します。レジスタ名には識別子か、2 つ以上の識別子を
+<code>.</code> でつないだもの（たとえば
+<code>foo123.bar456.baz789</code>）を使うことができます。</p>
+<table>
+<tr>
+<th>
+<p>書式</p>
+</th>
+<th>
+<p>ルール名</p>
+</th>
+<th>
+<p>意味</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>*</code></p>
+</td>
+<td>
+<p>AllowAll</p>
+</td>
+<td>
+<p>全てのレジスタを採用します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>reg</p>
+</td>
+<td>
+<p>Allow</p>
+</td>
+<td>
+<p>レジスタ reg を採用します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>reg1 <code>-&gt;</code> reg2</p>
+</td>
+<td>
+<p>Rename</p>
+</td>
+<td>
+<p>レジスタ reg1 を、名称を reg2 に変更しつつ採用します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>!</code> reg</p>
+</td>
+<td>
+<p>Deny</p>
+</td>
+<td>
+<p>レジスタ reg を除外します。</p>
+</td>
+</tr>
+</table>
+<p>ルールは 1 つ以上の任意の数だけ <code>,</code>
+区切りで列挙することができます。ただし、以下の条件に該当すると
+<code>LabelTransformerInconsistent</code> エラーとなります：</p>
+<ul>
+<li>AllowAll が複数回存在する</li>
+<li>AllowAll, Allow, Deny のうち複数種類が混在する</li>
+<li>レジスタ名（Allow, Deny における reg、Rename における
+reg1）に重複が存在する</li>
+</ul>
+</body>
+</html>

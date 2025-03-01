@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="function-flat"><span class="title-type">function
+</span>flat</h1>
+<p>2 次元の配列（配列の配列）を、内側の配列を全て連結した 1
+次元の配列に変換します。</p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Elem</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>arrays</code></p>
+</td>
+<td>
+<p>Elem[][]</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>配列の配列。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Elem[]</p>
+</td>
+<td>
+<p><code>arrays</code> に含まれる全ての配列を連結した配列。</p>
+</td>
+</tr>
+</table>
+<h2 id="使用例">使用例</h2>
+<pre><code>[[0, 1], [2, 3, 4], [5, 6, 7]]~flat()
+// ==&gt; [0, 1, 2, 3, 4, 5, 6, 7]</code></pre>
+<h2 id="詳細">詳細</h2>
+<p>この関数は配列の入れ子を 1
+段階解消しますが、それ以上は解消しません。</p>
+<p>たとえば <code>[[0, 1], [2, [3, 4], 5], [6, 7]]~flat()</code>
+の結果は <code>[0, 1, 2, [3, 4], 5, 6, 7]</code>
+であり、<code>[0, 1, 2, 3, 4, 5, 6, 7]</code> ではありません。</p>
+</body>
+</html>

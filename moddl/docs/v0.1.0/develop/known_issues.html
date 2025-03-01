@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="./moddl.css" />
+</head>
+<body>
+<h1 id="既知の問題">既知の問題</h1>
+<p>現在のバージョンにおける既知の問題を列挙します。これらは今後のバージョンで修正を予定しています。</p>
+<ul>
+<li>演奏開始時に大量のコンソール出力が出ます（これは PortAudio
+ライブラリに由来するものです）。</li>
+<li>演奏終了時にクラッシュすることがあります。</li>
+<li>ステレオ信号にさらに <code>pan</code>
+を適用するとクラッシュします。<code>pan</code>
+は必ずモノラル信号に適用してください。</li>
+<li><code>@effect</code> の入力となるトラックを
+<code>@mute</code>/<code>@solo</code>
+でミュートすると一切の音が出なくなります。</li>
+<li>MML の構文エラーが不親切・不正確です。</li>
+<li>sineOsc
+以外のオシレータの音色がエイリアスノイズを含んでおり低品質です。</li>
+</ul>
+</body>
+</html>

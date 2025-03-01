@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="function-asin"><span class="title-type">function
+</span>asin</h1>
+<p>逆正弦を求めます。</p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Value</p>
+</td>
+<td>
+<p>Number | ModuleDef</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>arg</code></p>
+</td>
+<td>
+<p>Value</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>正弦の値。</p>
+</td>
+</tr>
+</table>
+<h2 id="制約">制約</h2>
+<pre><code>-1 &lt;=arg &amp;&amp; arg &lt;= 1</code></pre>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Value</p>
+</td>
+<td>
+<p>[<code>-tau / 4</code>, <code>tau / 4</code>] の範囲内で、正弦が
+<code>arg</code> となる角度（ラジアン単位）。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>この関数は Number と ModuleDef
+に対してオーバーロードされています。詳細は「<a
+href="overloaded_calculations.html">null</a>」を参照してください。</p>
+<p>TODO リンクを正しく張る</p>
+</body>
+</html>

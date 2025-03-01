@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command"><span class="title-type">MML command
+</span><code>$</code></h1>
+<p>トラック内で定義済みのマクロを呼び出します。</p>
+<h2 id="書式">書式</h2>
+<p><code>$</code>&lt;name&gt;</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>name</p>
+</td>
+<td>
+<p>Identifier</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>呼び出すマクロの名前を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p><code>@$</code> コマンドで定義されたマクロを呼び出します。</p>
+<p>呼び出したマクロの演奏前後ではスタックが push/pop
+されます。このため、マクロの演奏が終了して呼び出し元に復帰する際は音長やオクターブ、ならびにレジスタの状態が復元されます。</p>
+<pre><code>@instrument ^a, sawOsc | lpf { freq: 3000@f } * adsrEnv
+
+a @$ m1 [
+  a d yf,10000 efgf // レジスタの値を変更するが、復元しない
+a ]
+
+a cde $m1 edc // レジスタが復元され、cded yf,10000 efgf yf,3000 edc と等価になる</code></pre>
+</body>
+</html>

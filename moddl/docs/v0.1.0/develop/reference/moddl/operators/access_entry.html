@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="operator-."><span class="title-type">operator </span>.</h1>
+<p>連想のキーに対応する値を取得します。</p>
+<h2 id="記法">記法</h2>
+<p><code>assoc.key</code></p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Value</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>assoc</code></p>
+</td>
+<td>
+<p>{ [key]: Value }</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>連想の値。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>key</code></p>
+</td>
+<td>
+<p>(Identifier)</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>キーの名前（式ではありません）。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Value</p>
+</td>
+<td>
+<p>キーに対応する値。</p>
+</td>
+</tr>
+</table>
+<h2 id="使用例">使用例</h2>
+<pre><code>@let :assoc, {
+  foo: 42,
+  bar: {
+    baz: [0, 10, 20, 30],
+  } \
+}
+
+assoc.foo
+// ==&gt; 42
+
+assoc.bar.baz~at(2)
+// ==&gt; 20
+
+assoc.qux
+// error: EntryNotFound</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>key</code>
+は識別子でなければなりません（任意の文字列を指定することはできません）。</p>
+<p>また、<code>key</code> は <code>assoc</code>
+に存在するものでなければなりません。存在しない場合
+<code>EntryNotFound</code> エラーが発生します。</p>
+</body>
+</html>

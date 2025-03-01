@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="グルーヴについて">グルーヴについて</h1>
+<p>ここでは groove 機構について解説します。</p>
+<p>groove
+機構を使うと、いわゆる「跳ねたリズム」や「訛ったリズム」などの、特色のあるリズムを表現することができます。</p>
+<p>groove 機構について解説する前に、まずはその前提となるシーケンサと
+tick の関係について解説します。</p>
+<h2 id="シーケンサと-tick-の関係">シーケンサと tick の関係</h2>
+<p>シーケンサの動作は、イベントの一種である tick
+を契機としています。通常、tick は一定の時間間隔で発生しています。tick
+が発生する頻度は、テンポが速いほど、また ticksPerBar
+の値が大きいほど、それらに比例して密になります。</p>
+<p><img src="./tempo_and_ticks.png" width=50%></p>
+<p>tick の発生タイミングを制御しているのは <strong>tick
+タイマー</strong>という機構です。tick
+タイマーは小数値を保持するある種の積算器であり、システム全体で 1
+つだけ存在し、次のように動作します：</p>
+<ul>
+<li>初期値は 0</li>
+<li>保持する値を 1 サンプルごとに少しずつ増加させる。増加量はテンポと
+ticksPerBar に比例する</li>
+</ul>
+<p>そして、tick タイマーの値が整数値をまたいだ瞬間に tick
+が発生するようになっています（最初の tick
+は演奏開始の瞬間に発生します）。</p>
+<p><img src="./tick_timer.png" width=50%></p>
+<p>これが、tick が一定の時間間隔で発生するしくみです。</p>
+<h2 id="tick-と-groove-の関係">tick と groove の関係</h2>
+<p>そして groove は、tick タイマーの増加のペースに変調を加えます。</p>
+<p>groove は入力として tick
+タイマーの現在の値を受け取り、それに変換を加えた値を出力します。groove
+が制御する対象のトラックでは、本来の tick
+タイマーの代わりに、変調された値の系列を使うようになります。</p>
+<p>これにより、通常であれば一定間隔で発生する tick
+が、「訛って」発生するようになります。それは制御対象となるトラックの「ノリ」を変化させることになります。</p>
+<p><img src="./modulated_tick_timer.png" width=50%></p>
+<p>groove は、tick
+タイマーの値に対する関数として動作することから、変調を行う groove
+の定義を <strong>groove 関数</strong>とも呼びます（ModDL
+の言語仕様上の「関数」とは異なるのでご注意ください）。</p>
+<p>なお、tick タイマーは一定の値に達すると 0
+にリセットされます。この一定の値を grooveCycle といい、文字通り groove
+の周期となります。</p>
+<h2 id="ケーススタディ跳ねたリズム">ケーススタディ：跳ねたリズム</h2>
+<p>ここで例題として、跳ねたリズム、つまり、本来等しい長さのはずの音符が、交互に長くなったり短くなったりするリズムを取り上げます。</p>
+<p>ここでは、16 分音符を 2:1
+で跳ねさせてみます。つまり、<code>c16c16c16c16</code> が
+<code>c12c24c12c24</code> のように演奏されるようにします。</p>
+<p>まず、この跳ねたリズムの周期を考えます。連続する 16
+分音符があるとき、最初のものは長く、次のものは短く、その次はまた長く…を繰り返すわけですから、周期は
+16 分音符 2 つ分、つまり 8 分音符 1 つ分となります。これを tick
+数に変換すると、(デフォルトでは ticksPerBar = 384 なので）tick 数は 384
+/ 8 = 48 です。したがって、grooveCycle を 48 とします。</p>
+<p>これにより、tick タイマーは 0 以上 48
+未満の値を取ることになります。</p>
+<p>本来の tick は、tick タイマーがちょうど 0, 1, 2, …, 47
+となった、または超えた瞬間に発行されます。この tick
+タイマーの値に変調を加えることで、目標とするリズムを作り出します。</p>
+<p>ここで、x 軸に本来の tick タイマーの値、y 軸に変調後の tick
+タイマーの値をとったグラフを考えてみます。ここに描かれる曲線が groove
+関数を表現しています。</p>
+<p>この関数は次の条件を満たす必要があります：</p>
+<ul>
+<li>2 点 (0, 0), (grooveCycle, grooveCycle) を必ず通る</li>
+<li>全ての点で単調増加である（水平な区間はあってかまわない）</li>
+</ul>
+<p>even なリズムであれば、本来の tick
+タイマーの値をそのまま使うわけですから、groove 関数は
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">y = x</annotation></semantics></math>
+となります。</p>
+<p>では 2:1 で跳ねたリズムの場合、関数はどうなるでしょうか。</p>
+<p>周期の 48 ticks を 2:1 に分けるということは、長い方の 16
+分音符の長さは本来の 32 ticks 分、短い方は本来の 16 ticks
+分の時間をそれぞれ占めることになります。</p>
+<p>本来の 32 ticks 分の長さで、実際に発行される tick の数は 16 分音符 1
+つ分、つまり 24 回であればよいわけですから、この関数は (32, 24)
+を通ればよいことになります。</p>
+<p>これに加えて groove 関数のグラフが必ず通るべき 2 点 (0, 0) および
+(grooveCycle, grooveCycle) = (48, 48) があるので、結局 3 点 (0, 0), (32,
+24), (48, 48)
+を通ればよいことになります。これを満たす関数はいろいろありますが、単純な
+1 次関数の場合分けで実現することにすると、</p>
+<ul>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">0 \le x &lt; 32</annotation></semantics></math>
+のとき、
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>24</mn><mn>32</mn></mfrac><mi>x</mi></mrow><annotation encoding="application/x-tex">y = \frac{24}{32}x</annotation></semantics></math></p></li>
+<li><p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>32</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mn>48</mn></mrow><annotation encoding="application/x-tex">32 \le x &lt; 48</annotation></semantics></math>
+のとき、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>24</mn><mn>16</mn></mfrac><mi>x</mi><mo>−</mo><mn>24</mn></mrow><annotation encoding="application/x-tex">y = \frac{24}{16}x - 24</annotation></semantics></math></p></li>
+</ul>
+<p>となります（他にも 2
+次関数で補間するなども考えられるので試してみてください。補間の方法に依って、16
+分音符よりも細かい音符を使ったときの挙動が変わってきます）</p>
+<p>TODO グラフ</p>
+<div class="tips">
+<p>グラフの大まかな見方として、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">y = x</annotation></semantics></math>
+を境として、右下側を通ると「ためた」リズムに、左上側を通ると「走った」リズムになることは覚えておくと便利でしょう。</p>
+</div>
+<p>上の関数を <code>groove</code>
+構築文で実装すると、次のようになります：</p>
+<pre><code>@grooveCycle 48
+@groove ^G, ^a, =x=&gt; if x &lt; 32 // x &lt; 0 や 48 &lt;= x の値は来ないので考慮不要
+    then (24 / 32) * x
+    else (24 / 16) * x - 24</code></pre>
+<p>先ほどの groove 関数は、さらに一般化することができます。n 分音符を r
+: (1 - r) で跳ねさせる groove 関数は以下のようになります：</p>
+<ul>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow><mo>=</mo><mfrac><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi><mi mathvariant="normal">P</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">r</mi><mi mathvariant="normal">B</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">r</mi></mrow><mi>n</mi></mfrac></mrow><annotation encoding="application/x-tex">\mathrm{ticks} = \frac{\mathrm{ticksPerBar}}{n}</annotation></semantics></math>
+として、</li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mn>2</mn><mi>r</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">0 \le x &lt; 2r\mathrm{ticks}</annotation></semantics></math>
+のとき、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mi>r</mi></mrow></mfrac><mi>x</mi></mrow><annotation encoding="application/x-tex">y = \frac{1}{2r}x</annotation></semantics></math></li>
+<li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>r</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mn>2</mn><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">2r\mathrm{ticks} \le x &lt; 2\mathrm{ticks}</annotation></semantics></math>
+のとき、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>x</mi><mo>+</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mn>2</mn><mi>r</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>r</mi></mrow></mfrac><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">y = \frac{1}{2(1 - r)}x + \frac{1 - 2r}{1 - r}\mathrm{ticks}</annotation></semantics></math></li>
+</ul>
+<p>これを関数を <code>groove</code>
+構築文で実装すると、次のようになります：</p>
+<pre><code>@let :ticksPerBar, 384
+@ticksPerBar ticksPerBar
+@grooveCycle 48
+
+@groove ^G, ^a,
+  let n = 16;
+  let r = 2 / 3;
+  let ticks = ticksPerBar / n;
+
+  // 余分な計算を減らすため式を少し変形
+  =x=&gt; if x &lt; 2 * ticks * r
+    then x / (2 * r)
+    else x / (2 * (1 - r)) + (1 - 2 * r) / (1 - r) * ticks</code></pre>
+<p>この <code>r</code> の値は、実は groove トラックの MML
+を使って変化させることができます。これにより、動的に変化する groove
+なども実現できます。</p>
+<pre><code>@let :ticksPerBar, 384
+@ticksPerBar ticksPerBar
+@grooveCycle 48
+
+// groove 定義の r にラベルを付与している以外は上と同じ
+@groove ^G, ^a,
+  let n = 16;
+  let r = (2 / 3) @ r;
+  let ticks = ticksPerBar / n;
+
+  =x=&gt; if x &lt; 2 * ticks * r
+    then x / (2 * r)
+    else x / (2 * (1 - r)) + (1 - 2 * r) / (1 - r) * ticks
+
+// 4 小節経過後は even にする
+G [4 r1] yr,0.5
+
+// その 4 小節後からまた少し跳ねる（3:2）
+G [4 r1] yr,0.6</code></pre>
+<h2 id="補足">補足</h2>
+<h3 id="section"></h3>
+<p>跳ねたリズムを実現する groove 関数は /* TODO */
+として組み込みライブラリに含まれているため、ここで説明したような内容を理解したり実装したりすることは必須ではありません。</p>
+<h3 id="section-1"></h3>
+<p>先述のように、tick タイマーはシステムに 1 つだけ存在します。そして
+groove
+は唯一のタイマーの出力を<strong>変調する</strong>だけであり、タイマーそのものの動作を変えたり、タイマーの数を増やしたりはしません。したがって
+even なトラックと groove を適用したトラックが共存したり、異なる groove
+を適用したトラック同士が共存したりすることは可能です。また、そのようなトラック同士の演奏がずれていくこともありません（grooveCycle
+の先頭の tick は必ず同時になります）。</p>
+<p>grooveCycle の先頭の tick を遅らせたり早めたりする groove
+は現在は定義できません。別途ディレイを挟むなどの方法をとってください。</p>
+<h3 id="t-コマンドを使った方法"><code>t</code> コマンドを使った方法</h3>
+<p>跳ねたリズムを実現するには、MML の <code>t</code>
+コマンドを使うこともできます。ただし、<code>t</code>
+コマンドは全てのトラックに作用するので、トラックごとに跳ねの有無や程度を変えることはできません。</p>
+<p>テンポ
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+で
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mo>:</mo><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">r : (1 - r)</annotation></semantics></math>
+で跳ねさせるには、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo>=</mo><mfrac><mi>t</mi><mrow><mn>2</mn><mi>r</mi></mrow></mfrac><mo>,</mo><msub><mi>t</mi><mn>2</mn></msub><mo>=</mo><mfrac><mi>t</mi><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac></mrow><annotation encoding="application/x-tex">t_1 = \frac{t}{2r}, t_2 = \frac{t}{2( 1 - r)}</annotation></semantics></math>
+を求めた上で、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mn>1</mn></msub><annotation encoding="application/x-tex">t_1</annotation></semantics></math>
+と
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mn>2</mn></msub><annotation encoding="application/x-tex">t_2</annotation></semantics></math>
+を使ってテンポ変更を繰り返します。</p>
+<p>たとえばテンポ 120 で 2:1
+で跳ねさせる場合、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>t</mi><mn>1</mn></msub><mo>=</mo><mn>90</mn><mo>,</mo><msub><mi>t</mi><mn>2</mn></msub><mo>=</mo><mn>180</mn></mrow><annotation encoding="application/x-tex">t_1 = 90, t_2 = 180</annotation></semantics></math>
+となります。これらの値を使って次のようにします：</p>
+<pre><code>a [0 t90r16 t180r16]</code></pre>
+</body>
+</html>

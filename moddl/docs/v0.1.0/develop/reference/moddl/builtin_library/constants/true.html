@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="constant-true"><span class="title-type">constant
+</span>true</h1>
+<p>真偽値の「真」を代表する数値です。</p>
+<h2 id="型">型</h2>
+<p>Boolean</p>
+<h2 id="値">値</h2>
+<p>1</p>
+<h2 id="詳細">詳細</h2>
+<p>「真」を表現する値として、他の値を使う理由が特になければ、この値を使うことが推奨されます。</p>
+<p>ただし、「真」と解釈される値は他にもあるため（全ての正の数値が該当します）、真偽を判定する目的で
+<code>true</code> と比較することは避けてください。</p>
+<p>次の例では、<code>value</code> = 2
+などの場合、「真」であるにもかかわらず結果は <code>"false"</code>
+になってしまいます：</p>
+<pre><code>if value == true then &quot;true&quot; else &quot;false&quot;</code></pre>
+<p>このような「条件」の文脈においては、<code>value</code>
+は自動的に真偽値として解釈されるので、比較の必要はありません：</p>
+<pre><code>if value then &quot;true&quot; else &quot;false&quot;</code></pre>
+</body>
+</html>
