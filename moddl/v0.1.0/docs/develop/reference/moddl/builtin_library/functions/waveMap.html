@@ -24,35 +24,10 @@
   <link rel="stylesheet" href="../../../../moddl.css" />
 </head>
 <body>
-<h1 id="function-map"><span class="title-type">function </span>map</h1>
-<p>配列の各要素を関数によって変換し、新たな配列を得ます。</p>
-<h2 id="型定義">型定義</h2>
-<table>
-<tr>
-<th>
-<p>名前</p>
-</th>
-<th>
-<p>型定義</p>
-</th>
-</tr>
-<tr>
-<td>
-<p>SrcElem</p>
-</td>
-<td>
-<p>*</p>
-</td>
-</tr>
-<tr>
-<td>
-<p>DestElem</p>
-</td>
-<td>
-<p>*</p>
-</td>
-</tr>
-</table>
+<h1 id="function-wavemap"><span class="title-type">function
+</span>waveMap</h1>
+<p>波形を表現した配列を受け取り、配列に含まれるサンプルを関数によって変換し、新たな配列を得ます。</p>
+<p>変換の際はループを考慮し、ループの構造については保持したまま、含まれるサンプルのみを変換します。</p>
 <h2 id="引数">引数</h2>
 <table>
 <tr>
@@ -71,16 +46,16 @@
 </tr>
 <tr>
 <td>
-<p><code>source</code></p>
+<p><code>waveformData</code></p>
 </td>
 <td>
-<p>SrcElem[]</p>
+<p>(Number | Number[])[]</p>
 </td>
 <td>
 <p><strong>必須</strong></p>
 </td>
 <td>
-<p>変換元の配列。</p>
+<p>波形データを表す配列。</p>
 </td>
 </tr>
 <tr>
@@ -88,14 +63,13 @@
 <p><code>mapper</code></p>
 </td>
 <td>
-<p>SrcElem -&gt; DestElem</p>
+<p>Number -&gt; Number</p>
 </td>
 <td>
 <p><strong>必須</strong></p>
 </td>
 <td>
-<p><code>source</code>
-の各要素に適用し、結果の配列の要素となる値を生成する関数。</p>
+<p>波形データのサンプルを変換する関数。</p>
 </td>
 </tr>
 </table>
@@ -111,15 +85,18 @@
 </tr>
 <tr>
 <td>
-<p>DestElem[]</p>
+<p>(Number | Number[])[]</p>
 </td>
 <td>
-<p>結果の配列。</p>
+<p>波形データを変換した配列。</p>
 </td>
 </tr>
 </table>
 <h2 id="使用例">使用例</h2>
-<pre><code>[0, 1, 2, 3, 4]~map(x -&gt; x ^ 2)
-// ==&gt; [0, 1, 4, 9, 16]</code></pre>
+<pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8]~waveMap(x -&gt; -x)
+// ==&gt; [0, -1, -2, -3, -4, -5, -6, -7, -8]
+
+[0, 1, 2, 3, 4, [5, 6, 7, 8]]~waveMap(x -&gt; -x)
+// ==&gt; [0, -1, -2, -3, -4, [-5, -6, -7, -8]]</code></pre>
 </body>
 </html>

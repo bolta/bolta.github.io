@@ -37,12 +37,12 @@ id="多くの数値演算演算子および数値関数">多くの数値演算�
 <ul>
 <li>2 項演算子 <code>^</code>, <code>*</code>, <code>/</code>,
 <code>%</code>, <code>+</code>, <code>-</code>, <code>&lt;</code>,
-<code>&lt;=</code>, <code>=</code>, <code>!=</code>, <code>&gt;=</code>,
-<code>&gt;</code>, <code>&amp;&amp;</code>, <code>||</code>
+<code>&lt;=</code>, <code>==</code>, <code>!=</code>,
+<code>&gt;=</code>, <code>&gt;</code>, <code>&amp;&amp;</code>,
+<code>||</code>
 <ul>
-<li>ただし、2 項演算子の <code>+</code>
-については、さらに特殊なオーバーロードが存在します。詳しくは本記事の「演算子
-<code>+</code>」を参照してください。</li>
+<li>ただし、<code>+</code> や <code>==</code>
+など、さらに特殊なオーバーロードをもつ演算子も存在します。詳しくはそれぞれの記事を参照してください。</li>
 </ul></li>
 <li>単項演算子 <code>!</code>, <code>-</code>, <code>+</code></li>
 <li>全ての数値関数。<code>log</code>, <code>sin</code>,
@@ -67,54 +67,19 @@ id="多くの数値演算演算子および数値関数">多くの数値演算�
 になります。</p>
 <p>たとえば、<code>@let :output, sineOsc + sawOsc</code>
 という文を考えます。ここでは先ほどの例と異なり、<code>+</code>
-の引数はどちらも ModuleDef となっています（NodeFactory も ModuleDef
+の引数はどちらも ModuleDef となっています（NodeDef も ModuleDef
 の一種です）。この場合、演算の結果は「入力として <code>sineOsc</code> と
 <code>sawOsc</code>
 の出力を受け取り、それらを足し合わせたものを出力するノードの
-NodeStructure」となります。</p>
+ModuleDef」となります。</p>
 <p><img src="./node_structure_calculation.png" width=50%></p>
 <p>つまり ModuleDef
 に対する演算では、実際の数値演算は定義フェーズではなく演奏フェーズでサンプルごとに行われます。</p>
 <p>引数の一方だけが ModuleDef で、もう一方は Number
 である場合も要領は同じです。この場合、Number の側が「定数値を出力する
-NodeFactory」に変換されます。たとえば
-<code>@let :output, sineOsc * 2</code> では、結果は以下のような
-ModuleDef になります：</p>
+NodeDef」に変換されます。たとえば <code>@let :output, sineOsc * 2</code>
+では、結果は以下のような ModuleDef になります：</p>
 <p><img src="./node_structure_and_number_calculation.png" width=50%></p>
-<h2 id="ユーザ定義関数">ユーザ定義関数</h2>
-<p>ここまでは組み込みの演算子や関数について説明しましたが、実はユーザが定義した関数も同様のふるまいをします。</p>
-<p>たとえば <code>@let :dist, (x, y) =&gt; sqrt(x ^ 2 + y + 2)</code>
-という関数を考えます。</p>
-<p>この関数に与える <code>x</code> と <code>y</code> がともに Number
-であれば、全ての演算（累乗、加算、平方根）は数値演算となります。したがって定義フェーズだけで計算が完結し、結果は
-Number となります。</p>
-<p>そうでない場合、たとえば <code>x</code> に Number ではなく ModuleDef
-を与えた場合を考えます。このとき、<code>x ^ 2</code> の結果は Number
-ではなく ModuleDef になります。すると、それに対する加算である
-<code>x ^ 2 + y ^ 2</code> も（<code>y ^ 2</code> が Number か ModuleDef
-かに依らず）NodeStructure
-になり、さらにはそれを引数とする、最終結果である
-<code>sqrt(x ^ 2 + y ^ 2)</code> までも ModuleDef になります。</p>
-<p><code>y</code> を ModuleDef にした場合も当然同じ結果になるので、結局
-<code>dist</code> 関数は組み込みの <code>+</code> や <code>sin</code>
-と全く同様にオーバーロードされていることになります。</p>
-<p>このように、基本的な数値演算がオーバーロードされていることに端を発して、より複雑な計算においても自動的にオーバーロードのメリットを享受することができます。</p>
-<h2 id="演算子">演算子 <code>+</code></h2>
-<p>演算子 <code>+</code> については、前述の Number か ModuleDef
-かによるオーバーロードに加えて、次のようなオーバーロードが存在します。</p>
-<h3 id="少なくとも一方の引数が-string-の場合">少なくとも一方の引数が
-String の場合</h3>
-<p>String でない引数を String
-に変換した上で、両辺の文字列を結合します。</p>
-<pre><code>&quot;foo&quot; + &quot;bar&quot; ==&gt; &quot;foobar&quot;
-42 + &quot;01&quot; ==&gt; &quot;4201&quot;
-&quot;01&quot; + 42 ==&gt; &quot;0142&quot;</code></pre>
-<h3 id="両辺が-array-の場合">両辺が Array の場合</h3>
-<p>両辺の配列を結合します。</p>
-<pre><code>[1, 2, 3] + [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;] ==&gt; [1, 2, 3, &quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]</code></pre>
-<h3 id="両辺が-assoc-の場合">両辺が Assoc の場合</h3>
-<p>両辺の連想をマージします。両辺に同じキーが含まれる場合は、右辺の値が優先されます。</p>
-<pre><code>{ foo: 42, bar: 99 } + { foo: &quot;hoge&quot;, baz: &quot;pita&quot; } ==&gt; { foo: &quot;hoge&quot;, bar: 99, baz: &quot;pita&quot; }</code></pre>
 <h2 id="if-式"><code>if</code> 式</h2>
 <p><code>if</code> 式は、条件式、<code>then</code> 式、<code>else</code>
 式の 3
@@ -129,5 +94,22 @@ String の場合</h3>
 <code>then</code> 式の出力、偽であれば <code>else</code>
 式の出力を出力する ModuleDef
 が結果となります。この場合、条件演算は演奏フェーズでサンプルごとに行われます。</p>
+<h2 id="ユーザ定義関数">ユーザ定義関数</h2>
+<p>ここまでは組み込みの演算子や関数について説明しましたが、実はユーザが定義した関数も同様のふるまいをします。</p>
+<p>たとえば <code>@let :dist, (x, y) =&gt; sqrt(x ^ 2 + y + 2)</code>
+という関数を考えます。</p>
+<p>この関数に与える <code>x</code> と <code>y</code> がともに Number
+であれば、全ての演算（累乗、加算、平方根）は数値演算となります。したがって定義フェーズだけで計算が完結し、結果は
+Number となります。</p>
+<p>そうでない場合、たとえば <code>x</code> に Number ではなく ModuleDef
+を与えた場合を考えます。このとき、<code>x ^ 2</code> の結果は Number
+ではなく ModuleDef になります。すると、それに対する加算である
+<code>x ^ 2 + y ^ 2</code> も（<code>y ^ 2</code> が Number か ModuleDef
+かに依らず）ModuleDef になり、さらにはそれを引数とする、最終結果である
+<code>sqrt(x ^ 2 + y ^ 2)</code> までも ModuleDef になります。</p>
+<p><code>y</code> を ModuleDef にした場合も当然同じ結果になるので、結局
+<code>dist</code> 関数は組み込みの <code>+</code> や <code>sin</code>
+と全く同様にオーバーロードされていることになります。</p>
+<p>このように、基本的な数値演算がオーバーロードされていることに端を発して、より複雑な計算においても自動的にオーバーロードのメリットを享受することができます。</p>
 </body>
 </html>
