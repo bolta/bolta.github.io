@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command"><span class="title-type">MML command
+</span><code>{</code> … <code>}</code></h1>
+<p>スタックを push/pop します。</p>
+<h2 id="書式">書式</h2>
+<p><code>{</code>&lt;commands&gt;<code>}</code></p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>commands</p>
+</td>
+<td>
+<p>Commands</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>スタックを push した状態で実行するコマンド列を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>スタックをプッシュした状態で commands を実行し、スタックを pop
+します。このため、commands
+の終了時には音長やオクターブ、ならびにレジスタの状態が復元されます。</p>
+<pre><code>@instrument ^a, pulseOsc { duty: 0.25@d } * adsrEnv
+
+a o4l8
+// } の位置で状態が復元される。cde l16 cde yduty,0.5 cde l8 yduty,0.25 cde と等価
+a cde { l16 cde yduty,0.5 cde } cde</code></pre>
+</body>
+</html>

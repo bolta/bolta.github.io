@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="construction-letall"><span class="title-type">construction
+</span>letAll</h1>
+<p>連想配列を用いてトップレベル変数を一括で定義します。</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>vars</code></p>
+</td>
+<td>
+<p>Assoc</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>定義する変数の名前と値を記述した連想配列を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p><code>vars</code>
+に指定した連想配列の全てのキーと値が、トップレベルの変数名と値として設定されます。</p>
+<p><code>let</code> 文と同じく、<code>letAll</code>
+文で定義した変数は、同じ ModDL
+ファイル内の、定義個所より後の全ての式から参照することができます。</p>
+<div class="sample">
+<div class="code">
+<pre><code>@letAll import(&quot;./path/to/lib.moddl&quot;)
+
+</code></pre>
+</div>
+<div class="desc">
+<p><code>./path/to/lib.moddl</code>
+でエクスポートされた連想配列の全てのエントリを、トップレベル変数として定義します。</p>
+</div>
+</div>
+</body>
+</html>

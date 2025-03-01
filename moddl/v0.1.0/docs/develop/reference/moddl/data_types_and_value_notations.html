@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../moddl.css" />
+</head>
+<body>
+<h1 id="moddl-のデータ型と値の記法">ModDL のデータ型と値の記法</h1>
+<p>この文書では、ModDL の値のデータ型について説明します。</p>
+<p>また、各々の型の値の記法についても説明します。</p>
+<h2 id="number">Number</h2>
+<p><strong>数値</strong>を表す型です。ModDL の数値は全て 32
+ビット浮動小数点数です。</p>
+<p>ModDL
+では一般的な数値のほか真偽値についても数値で表し、真偽値のための独立した型はありません。真偽値としての数値の解釈では、<strong>正の数値を真、負の数値と
+0
+を偽</strong>とします。一般的なプログラミング言語の解釈とは異なるので注意してください。</p>
+<p>定数 <code>true</code>, <code>false</code>
+は、それぞれ真と偽を代表する値として <code>1</code>, <code>-1</code>
+と定義されています。</p>
+<h3 id="値の記法">値の記法</h3>
+<p>正負の整数・小数を、一般的な記法で記述することができます。ただし指数表記はありません。</p>
+<ul>
+<li><code>42</code></li>
+<li><code>-3.14</code></li>
+</ul>
+<h2 id="boolean">（Boolean）</h2>
+<p>Number
+型の項で述べた通り、真偽値のための独立した型はありませんが、便宜上、<code>1</code>
+と <code>-1</code> の 2 つの値のみからなる集合（したがって Number
+の部分集合）を Boolean 型と呼ぶ場合があります。</p>
+<p>たとえば関数の適用結果が Boolean 型であると言った場合、その関数は
+<code>1</code> か <code>-1</code>
+だけを返し、その他の数値や数値以外の値は返さないことを意味します。</p>
+<h2 id="waveform">Waveform</h2>
+<p><strong>波形</strong>を参照する型です。</p>
+<p>値は <code>waveform</code>
+文によって定義され、変数に割り当てられます。</p>
+<h3 id="値の記法-1">値の記法</h3>
+<p>この型の値を直接表現する方法はありません。</p>
+<p>次のような <code>waveform</code> 文を記述すると、変数
+<code>piano</code> で波形を参照できるようになります。</p>
+<pre><code>@waveform :piano, &quot;/path/to/piano.wav&quot;</code></pre>
+<h2 id="trackset">TrackSet</h2>
+<p><strong>トラックセット</strong>を表す型です。トラックセットは、1
+つ以上のトラックをまとめて表すものです。</p>
+<p>新しいトラックを定義するときと、定義したトラックを参照するときの両方で使います。</p>
+<h3 id="値の記法-2">値の記法</h3>
+<p><code>^</code> に続いてトラック名（英数字 1
+文字）を羅列して表します。</p>
+<ul>
+<li><code>^a</code></li>
+<li><code>^678bcDE</code></li>
+</ul>
+<p>それぞれ「トラック <code>a</code>」、「トラック <code>6</code>,
+<code>7</code>, <code>8</code>, <code>b</code>, <code>c</code>,
+<code>D</code>, <code>E</code>」を表します。</p>
+<h2 id="quotedidentifier">QuotedIdentifier</h2>
+<p><strong>識別子の引用形式</strong>を表す型です。識別子に「変数」として割り当たった値ではなく、識別子の名前そのものを表します。</p>
+<p><code>let</code> 文や <code>waveform</code>
+文で変数を定義するとき、指定する変数名はこの型の値である必要があります。</p>
+<h3 id="値の記法-3">値の記法</h3>
+<p>識別子の前に <code>:</code> を付けて表します。</p>
+<p>識別子は ASCII の範囲で英数字と <code>_</code>
+を自由に組み合わせて作ることができます。ただし、最初の文字に数字を使うことはできません。大文字と小文字は区別されます。</p>
+<ul>
+<li><code>:foo</code></li>
+<li><code>:barBaz345</code></li>
+</ul>
+<p>次の <code>let</code> 文では <code>answer</code>
+という名前の変数を定義し、その値は <code>42</code> です：</p>
+<pre><code>@let :answer, 42</code></pre>
+<h2 id="string">String</h2>
+<p><strong>文字列</strong>を表す型です。ファイルパスなどの表現に使います。</p>
+<h3 id="値の記法-4">値の記法</h3>
+<p><code>"</code> … <code>"</code> で任意の内容を囲んで表します。</p>
+<ul>
+<li><code>"./my_favorite_synths.moddl"</code></li>
+<li><code>"hello, world"</code></li>
+</ul>
+<div class="caution">
+<p><code>\</code>
+を使った特殊文字のエスケープには、現時点では対応していませんが、今後のバージョンでは対応を予定しています。したがって、</p>
+<ul>
+<li>文字列に <code>"</code> を含めることは、現時点ではできません。</li>
+<li>ファイルパスの区切り文字には Windows 環境でも <code>/</code>
+を使うことを推奨します（文字列に含める <code>\</code> は将来
+<code>\\</code>
+と書くことになる可能性が高く、非互換性の原因になります）。</li>
+</ul>
+</div>
+<h2 id="array">Array</h2>
+<p><strong>配列</strong>を表す型です。配列は、任意の型の値を 0
+個以上の任意の数だけ、順序付きで並べたものです。</p>
+<p>配列に属する値を、配列の<strong>要素</strong>と呼びます。</p>
+<p>ModDL の配列では、各要素の型は統一されている必要はありません。</p>
+<p>配列の各要素は、先頭を <code>0</code>
+とする<strong>添字</strong>で指定して取り出すことができます。</p>
+<p>TODO 添字の構文について説明（というか実装も）</p>
+<h3 id="値の記法-5">値の記法</h3>
+<p>任意の数の要素を <code>,</code> で区切り、<code>[</code> …
+<code>]</code> で囲んで表します。</p>
+<p>最後の要素の後にも冗長な <code>,</code> を付けることができます。</p>
+<ul>
+<li><code>[]</code></li>
+<li><code>[1, 3, 5, ]</code></li>
+<li><code>[foo, ["bar", `baz`], ^qux]</code></li>
+</ul>
+<h2 id="assoc">Assoc</h2>
+<p><strong>連想配列</strong>（associative
+array）を表す型です。連想配列は、<strong>キー</strong>と<strong>値</strong>の組を
+0 個以上の任意の数だけ、順序を定義せずにまとめたものです。</p>
+<p>連想配列に属するキーと値の組を<strong>エントリ</strong>と呼びます。</p>
+<p>キーは文字列でなくてはならず、また一つの連想配列の中で一意でなくてはなりません。値は任意の型の値にすることができます。値の型は統一されている必要はありません。</p>
+<p>連想配列に対しては、キーを指定して、対応する値を取り出すことができます。</p>
+<h3 id="値の記法-6">値の記法</h3>
+<p>任意の数のエントリを <code>,</code> で区切り、<code>{</code> …
+<code>}</code> で囲んで表します。</p>
+<p>エントリは、キーと値を <code>:</code>
+で区切って表します。キーは識別子でなくてはならず、<code>"</code> …
+<code>"</code> などで囲みません。</p>
+<p>最後のエントリの後にも冗長な <code>,</code>
+を付けることができます。</p>
+<ul>
+<li><code>{ }</code></li>
+<li><code>{ foo: 42, bar: { baz: "qux", } }</code></li>
+</ul>
+<p>TODO メンバアクセスの構文について説明</p>
+<h2 id="nodefactory">NodeFactory</h2>
+<p><strong>ノードファクトリ</strong>を表す型です。</p>
+<p>ノードファクトリは、ModDL
+を実行する過程（より厳密には、実行過程のうち演奏に先立つ「構築」の過程）においてノードに変換される値です。</p>
+<p>ノードファクトリにはパラメータを与えることができます。与えたパラメータは生成されたノードに設定されます。</p>
+<h3 id="値の記法-7">値の記法</h3>
+<p>ノードファクトリそのものを ModDL
+で記述することは（現時点では）できず、組み込み変数として提供されているものを使うことになります。</p>
+<p>組み込みのノードファクトリの一部を挙げると、以下のようなものがあります：</p>
+<ul>
+<li>オシレータ
+<ul>
+<li><code>sineOsc</code>, <code>sawOsc</code>,
+<code>pulseOsc</code></li>
+</ul></li>
+<li>フィルタ
+<ul>
+<li><code>lpf</code>, <code>hpf</code>, <code>bpf</code></li>
+</ul></li>
+<li>エンベロープ
+<ul>
+<li><code>expEnv</code>, <code>adsrEnv</code></li>
+</ul></li>
+</ul>
+<p>ノードファクトリにパラメータを与えるには、ノードファクトリの値の後に
+<code>{</code> … <code>}</code>
+で囲んだパラメータを記述します。パラメータは名前と値を <code>:</code>
+で区切ったものです。</p>
+<pre><code>lpf { freq: 3000, q: 10 }</code></pre>
+<p>ノードファクトリにパラメータを与えたものは、後述の ModuleDef
+型の値になります。</p>
+<h4
+id="パラメータとパラメータ名の省略">パラメータとパラメータ名の省略</h4>
+<p>TODO こういう細かい話は他でやった方がいい？</p>
+<p>ノードファクトリの種類に応じて、パラメータの名前、順番、デフォルト値（必須パラメータの場合を除く）が決まっています。パラメータを先頭から順番通りに設定する場合は、パラメータ名を省略することができます。</p>
+<p>たとえば <code>adsrEnv</code> のパラメータは順に
+<code>attack</code>（デフォルト値は <code>0</code>）,
+<code>decay</code>（<code>0</code>）,
+<code>sustain</code>（<code>1</code>）,
+<code>release</code>（<code>0</code>）,
+<code>initial</code>（<code>0</code>） です。このため、次の 2
+つは同じ意味になります：</p>
+<pre><code>adsrEnv { attack: 0.2, decay: 0.5, sustain: 0.8 }
+adsrEnv { 0.2, 0.5, 0.8 }</code></pre>
+<p><code>release</code> と <code>initial</code>
+には値が設定されていないため、それぞれデフォルト値の <code>0</code>
+が適用されます。</p>
+<p>一方、パラメータの名前を明示すれば、必要なパラメータだけを自由な順番で設定することができます。次の例では
+<code>decay</code> と <code>release</code>
+だけを設定します（それ以外はデフォルト値が適用されます）：</p>
+<pre><code>adsrEnv { release: 1, decay: 0.5 }</code></pre>
+<p>さらに、パラメータ名の省略と明示を組み合わせることもできます。たとえば次のような書き方も可能です：</p>
+<pre><code>adsrEnv { 0.5, 1, initial: 0.7, release: 0.5 }</code></pre>
+<p>この例では <code>0.5</code> は <code>attack</code>、<code>1</code> は
+<code>decay</code> に適用されます。<code>sustain</code> はデフォルト値の
+<code>1</code> になります。</p>
+<h3
+id="ノードファクトリとノードの関係">ノードファクトリとノードの関係</h3>
+<p>ノードファクトリはノードそのものではなく、ノードの<strong>素</strong>であり、そこからノードが（いくつでも）生成される存在です。
+1
+つのノードファクトリでも、式の中で何度も使われれば、その都度異なるノードが生成されます。</p>
+<p>たとえば、次の式には同じ <code>sineOsc</code> が 3
+回使われていますが、ModDL
+が処理される過程で全て別々のノードになります。</p>
+<p>3
+つのオシレータにそれぞれ異なる周波数が入力され、結果として加算合成を実現することができます。</p>
+<pre><code>f | sineOsc \
++ (2 * f) | sineOsc / 2 \
++ (3 * f) | sineOsc / 3</code></pre>
+<p>なお、ModDL
+の中でノードそのものを扱う方法はありません。ノードの構築は、ModDL
+を処理して得られた（ノードファクトリを含む）ノード構造に基づいて、ModDL
+の外側で行われるため、ModDL
+を処理する段階においてはノードはまだ存在しないためです。</p>
+<h2 id="moduledef">ModuleDef</h2>
+<p><strong>ノード構造</strong>を表す型です。ノード構造とは、ノードの接続関係などを表すものです。</p>
+<p>TODO blah blah</p>
+<h2 id="function">Function</h2>
+<p><strong>関数</strong>を表す型です。関数は引数として任意の個数の値を取り、評価結果として
+1 つの値を返します。</p>
+<p>ModDL
+の関数は<strong>純粋関数</strong>であり、副作用を持つことがありません（さらに言えば
+ModDL
+は純粋な言語であり、関数に限らずどんな方法でも副作用を生じさせることはできません）。</p>
+<h3 id="値の記法-8">値の記法</h3>
+<p>関数は組み込みとして提供されているほか、新たに定義することもできます。</p>
+<p>組み込みの関数の一部を挙げると、以下のようなものがあります：</p>
+<ul>
+<li>数学関数
+<ul>
+<li><code>sin</code>, <code>log</code>, <code>round</code></li>
+</ul></li>
+<li>高階関数
+<ul>
+<li><code>map</code>, <code>reduce</code></li>
+</ul></li>
+<li>ファイル分割に関する関数
+<ul>
+<li><code>import</code></li>
+</ul></li>
+</ul>
+<p>新たな関数を記述するには、引数とする識別子を <code>,</code>
+で区切って <code>(</code> … <code>)</code>
+で囲んだあと、<code>=&gt;</code> に続けて値を記述します。</p>
+<p>たとえば、与えられた 2
+つの値を掛け合わせる関数は、次のようになります：</p>
+<pre><code>(x, y) -&gt; x * y</code></pre>
+<p>引数が 1 つだけの場合は、<code>(</code>, <code>)</code>
+を省略することができます：</p>
+<pre><code>x -&gt; x ^ 2</code></pre>
+<p>これらはいわゆる「無名関数」の記述方法ですが、ModDL
+には「名前のある関数」を定義する専用の方法はありません。名前のある関数は、無名関数を
+<code>let</code> 文や <code>let</code>
+式で変数に割り当てれば作ることができます（再帰もできます ← TODO
+<code>let</code> 文・式ともできるよね……確認しておく）。</p>
+<pre><code>@let :multiply, (x, y) -&gt; x * y
+@let :answer, multiply(6, 7) // 42</code></pre>
+<p>ちなみに引数が 0
+個の関数を作ることも可能ですが、純粋な言語において「引数を取らない関数」は定数と同じなので、基本的に作る意味はありません。ただし、評価を遅延する（時間のかかる計算を定義はしておくが、必要になるまでは計算を実行しない）目的では、使い途があるかもしれません。</p>
+<pre><code>@let :calcAnswer, () -&gt; 42
+@let :answer, calcAnswer() // 直接 42 と定義するのと同じ</code></pre>
+<p>関数を評価するときは、（上記の例ですでに出ていますが）関数の後に
+<code>(</code> … <code>)</code> を続け、引数として <code>,</code>
+で区切った値を指定します。ノードファクトリの引数と同様に、引数の名前を明示することもできます。</p>
+<p>なお、関数評価には糖衣構文があります。たとえば、組み込み関数
+<code>map</code> は、第 1 引数に配列を取り、その全ての要素に第 2
+引数の関数を適用します。したがって通常の書き方では次のようになりますが：</p>
+<pre><code>map([0, 1, 2, 3, 4], x -&gt; x ^ 2) // [0, 1, 4, 9, 16]</code></pre>
+<p>これを次のように書くこともできます：</p>
+<pre><code>[0, 1, 2, 3, 4]~map(x -&gt; x ^ 2)</code></pre>
+<p>このように、記号 <code>~</code> を使うと関数と第 1
+引数の順番を入れ替えることができます。こうすると一般的なオブジェクト指向言語のように、<code>map</code>
+が配列に属する<strong>メソッド</strong>であるかのように記述することができます。</p>
+<p>これは単なる糖衣構文なので、1
+つ以上の引数を取る全ての関数に適用できます。前出の multiply
+を次のように書くことも可能ではあります：</p>
+<pre><code>@let :answer, 6~multiply(7) // 42</code></pre>
+<div class="tips">
+<p>文章校正で、隣り合った文字や単語を入れ替えることを表す記号が
+<code>~</code> に似ていることから、この記号を採用しています。</p>
+</div>
+<h2 id="io">Io</h2>
+<p>TODO blah blah blah blah blah</p>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="construction-effect"><span class="title-type">construction
+</span>effect</h1>
+<p>エフェクトトラックを定義します。</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>tracks</code></p>
+</td>
+<td>
+<p>TrackSet</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>定義する対象のトラックを指定します。</p>
+<p>複数トラックを指定した場合、その各々のトラックに対して同じ構成のインストゥルメントが生成されます。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>sources</code></p>
+</td>
+<td>
+<p>TrackSet</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>入力となるトラックを指定します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>effect</code></p>
+</td>
+<td>
+<p>ModuleDef</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p><code>sources</code>
+のトラック群に適用するエフェクトを定義します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p><code>sources</code> には 1
+つ以上の任意の数のトラックを指定できます。ただし 1 つであれば
+<code>effect</code> 文を使う必要はない（<code>instrument</code>
+文で表現できる）ため、通常は複数のトラックを指定します。</p>
+<p><code>effect</code> の定義では、<code>sources</code>
+で指定した各トラックの名前を使って、対応するトラックの出力を参照することができます。</p>
+<div class="sample">
+<div class="code">
+<pre><code>@instrument ^abcd, ...
+abcd ...
+
+@let :dist, =x=&gt; (x * 10@boost) | limit { min: -1, max: 1 }
+@effect ^A, ^abcd, (a + b + c + d) | dist / 4
+
+A r1 yboost,30 r1
+
+</code></pre>
+</div>
+<div class="desc">
+<p>エフェクトトラック <code>A</code> として、トラック <code>a</code>,
+<code>b</code>, <code>c</code>, <code>d</code>
+の出力を足し合わせた上で歪ませるエフェクトを定義します。</p>
+<p>エフェクトのパラメータをトラック <code>A</code> の MML
+で操作することができます。</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="./moddl.css" />
+</head>
+<body>
+<h1 id="バージョニングポリシー">バージョニングポリシー</h1>
+<p>ModDL/MML の暫定的なバージョニングポリシーは以下の通りです：</p>
+<ul>
+<li><strong>バージョン</strong>は 3 つの整数値 x, y, z を <code>.</code>
+で連結した x<code>.</code>y<code>.</code>z で表現します。たとえば
+<code>1.23.4</code> など。</li>
+<li>x
+の値を<strong>メジャーバージョン</strong>と呼びます。メジャーバージョンが変わるタイミングでは破壊的変更を行う可能性があります。
+<ul>
+<li>ただし、メジャーバージョンが 0
+の間は全てのバージョンで破壊的変更の可能性があります。</li>
+</ul></li>
+<li>y
+の値を<strong>マイナーバージョン</strong>と呼びます。破壊的変更を伴わない機能追加を行った場合は、原則的にこのバージョンを上げます。</li>
+<li>z
+の値を<strong>パッチバージョン</strong>と呼びます。バグ修正のみを行った場合はこのバージョンを上げます。</li>
+<li>メジャー/マイナーバージョンを上げる場合、それより下位のバージョンは
+0 にリセットします。</li>
+<li>バージョンを付与する対象は「ModDL/MML
+処理系、標準ライブラリ、ドキュメントを併せたもの」です。たとえば処理系を更新せずライブラリだけを更新した場合も、処理系を含めた全体のバージョンを変更します。</li>
+</ul>
+</body>
+</html>

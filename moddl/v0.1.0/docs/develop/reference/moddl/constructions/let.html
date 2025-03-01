@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="construction-let"><span class="title-type">construction
+</span>let</h1>
+<p>トップレベル変数を定義します。</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>name</code></p>
+</td>
+<td>
+<p>QuotedIdentifier</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>定義する変数の名前を指定します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>value</code></p>
+</td>
+<td>
+<p>any</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>変数の値を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p><code>let</code> 文で定義した変数は、同じ ModDL
+ファイル内の、定義個所より後の全ての式から参照することができます。</p>
+<!-- ただし MML 内の式参照に限っては、定義以前を含む ModDL ファイル内の全ての場所から参照することができます。← 重要性が低いのと、今後変わるかもしれないので非公開 -->
+<p><code>let</code> 文で定義した変数は、他の ModDL
+ファイルから参照することはできません。変数定義を ModDL
+ファイル間で共有するには <code>export</code>/<code>import</code>
+文を使います。</p>
+<div class="sample">
+<div class="code">
+<pre><code>@let :cutoff, 1000
+@instrument ^a, sawOsc | lpf { freq: cutoff, q: 10 } * adsrEnv
+
+</code></pre>
+</div>
+<div class="desc">
+
+</div>
+</div>
+</body>
+</html>

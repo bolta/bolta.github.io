@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-waveformplayer"><span class="title-type">node def
+</span>waveformPlayer()</h1>
+<p>波形を再生するノードを提供します。</p>
+<h2 id="関数の引数">関数の引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>waveform</code></p>
+</td>
+<td>
+<p>Waveform</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>初期状態で再生する波形。</p>
+</td>
+</tr>
+</table>
+<h2 id="主入力">主入力</h2>
+<p>周波数を受け取ります。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<p>入力はありません。</p>
+<h2 id="イベント">イベント</h2>
+<table>
+<tr>
+<th>
+<p>種別</p>
+</th>
+<th>
+<p>キー</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Note</p>
+</td>
+<td>
+</td>
+<td>
+<p>ノートオンで波形を <code>startOffset</code>
+から再生します。ノートオフは無視します。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Set</p>
+</td>
+<td>
+<p>waveform</p>
+</td>
+<td>
+<p>値を Waveform
+型の値として解釈し、再生する波形を指定された波形に切り替えます。</p>
+</td>
+</tr>
+</table>
+<h2 id="出力">出力</h2>
+<p>波形を再生します。</p>
+<h2 id="使用例">使用例</h2>
+<pre><code>@waveform :wave1, &quot;./path/to/wave1.wav&quot;
+
+@instrument ^a, waveformPlayer(wave1) * adsrEnv</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>waveformPlayer</code>
+はノード定義を提供する関数であり、それ自体はノード定義ではありません。ノード定義を利用するには関数適用の
+<code>()</code> 演算子が必要です。</p>
+</body>
+</html>

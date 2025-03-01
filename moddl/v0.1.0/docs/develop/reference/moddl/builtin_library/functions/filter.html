@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="function-filter"><span class="title-type">function
+</span>filter</h1>
+<p>配列の各要素のうち、関数で表された条件を満たすものだけを含む新たな配列を得ます。</p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Elem</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>source</code></p>
+</td>
+<td>
+<p>Elem[]</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>変換元の配列。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>predicate</code></p>
+</td>
+<td>
+<p>Elem -&gt; Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p><code>source</code> の各要素に適用する関数。</p>
+<p>要素を結果に含める場合は truthy な値を、含めない場合は falsy
+な値を返します。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Elem[]</p>
+</td>
+<td>
+<p>結果の配列。</p>
+</td>
+</tr>
+</table>
+<h2 id="使用例">使用例</h2>
+<pre><code>[0, 1, 2, 3, 4]~filter(x -&gt; x % 2 == 0)
+// ==&gt; [0, 2, 4]</code></pre>
+</body>
+</html>

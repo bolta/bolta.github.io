@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="エフェクトトラックについて">エフェクトトラックについて</h1>
+<p>ここではエフェクトとエフェクトトラックについて解説します。</p>
+<p><strong>エフェクト</strong>は、入力を加工して出力するモジュール全般を指します。</p>
+<p>エフェクトとして動作するトラックを<strong>エフェクトトラック</strong>と呼びます。インストゥルメントトラックとの違いは、インストゥルメントトラックが受け取るのは周波数ですが、エフェクトトラックが受け取るのは他のインストゥルメントトラックまたはエフェクトトラックが生成した出力（基本的には波形）である点です。</p>
+<p>エフェクトトラックの特徴として、複数の入力を受け取ることもできる点があります。というより、入力を
+1
+つしか受け取らないのであれば、それはインストゥルメントトラックの一部として実現できるので、エフェクトトラックは必要ないことになります。複数受け取ることにエフェクトトラックの意義があります。</p>
+<p>エフェクトトラックを定義するには <code>@effect</code>
+構築文を使います。</p>
+<div class="note">
+<p>「エフェクト」と「エフェクトトラック」の使い分けに注意してください。</p>
+<p>全てのエフェクトトラックはエフェクトを実現しますが、エフェクトを実現するのに必ずしもエフェクトトラックを使うとは限りません。</p>
+</div>
+<h2
+id="エフェクトトラックが必要になるケース">エフェクトトラックが必要になるケース</h2>
+<p>複数の入力を受け取る必要があるエフェクトの例としては、ディストーションなどの非線形のエフェクトが挙げられます。非線形とは、「個別にエフェクトをかけてからミックスする」のと、「ミックスしてからエフェクトをかける」のとでは結果が違うことを意味します。</p>
+<p>両者の違いを試してみましょう。</p>
+<p>ディストーションは、入力を増幅し、その後一定の範囲からはみ出た部分を切り落とすことで実現されます。</p>
+<p>たとえば次のように実装することができます：</p>
+<pre><code>@let :distortion,
+  let boost = 80;
+  =x=&gt; (x * boost) | limit { min: -1, max: 1 }</code></pre>
+<p>歪ませる前の音色は、単純な減衰する三角波とします：</p>
+<pre><code>@let :cleanTone, triangleOsc * expEnv { ratioPerSec: 1/4 }</code></pre>
+<p><code>cleanTone</code> で弾いた和音に、<code>distortion</code> を 2
+通りの方法で適用してみます。</p>
+<p>まずは、和音を構成する個別のトラックそれぞれに
+<code>distortion</code>
+をかける場合。つまりエフェクトトラックを使わない場合です：</p>
+<pre><code>// 2 で割っているのは次の例とのレベル調整のため
+@instrument ^abcd, cleanTone | distortion / 2
+
+abcd o2l1
+
+abc r48
+ab r48
+a r48
+
+a &gt;&gt;a ^
+b &gt;&gt;c+^
+c &gt; e ^
+d   a ^</code></pre>
+<p>次に、和音をミックスした後で <code>distortion</code>
+をかける場合です。この場合はエフェクトトラックが必要になります：</p>
+<pre><code>@instrument ^abcd, cleanTone
+@effect ^D, ^abcd, (a + b + c + d) | distortion
+
+// 以下、MML は上と同じ</code></pre>
+<p>2 つを比較すると、後者の方が「いい感じ」に歪んでいると思います。</p>
+<p>前者は構成音の一つ一つが歪み、矩形波に近づきますが、歪ませたエレキギターで和音を弾いたときの感じとは違っています。</p>
+<p>ギターの音を歪ませる場合は、すでに和音となってギターから出力された後で歪ませているわけですから、後者と同じ構成になっています。</p>
+<p>エフェクトトラックが必要になるのはこんなケースです。</p>
+</body>
+</html>

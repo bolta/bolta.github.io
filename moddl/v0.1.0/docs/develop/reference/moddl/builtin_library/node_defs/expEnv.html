@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-expenv"><span class="title-type">node def
+</span>expEnv</h1>
+<p>振幅が指数的に減衰するエンベロープを提供します。</p>
+<h2 id="主入力">主入力</h2>
+<p>入力はありません。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<table>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>必須/省略時</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ratioPerSec</code></td>
+<td><strong>必須</strong></td>
+<td>1 秒あたりの減衰率を指定します。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="イベント">イベント</h2>
+<table>
+<tr>
+<th>
+<p>種別</p>
+</th>
+<th>
+<p>キー</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>Note</p>
+</td>
+<td>
+</td>
+<td>
+<p>ノートオンで出力を 1 にし、発音を開始します。ノートオフで出力を 0
+にします。</p>
+</td>
+</tr>
+</table>
+<h2 id="出力">出力</h2>
+<p>ノートオンからの時間に応じたエンベロープの振幅を出力します。ノートオフの後は
+0 を出力します。</p>
+<h3 id="範囲">範囲</h3>
+<p>[0, 1]</p>
+<h2 id="使用例">使用例</h2>
+<pre><code>// オシレータに対してエンベロープを適用する
+pulseOsc * expEnv { ratioPerSec: 1 / 8 }</code></pre>
+<h2 id="詳細">詳細</h2>
+<p>ノートオンの瞬間 1 を出力します。</p>
+<p>そこから出力は指数的に減衰し、1 秒ごとに <code>ratioPerSec</code>
+倍になります。</p>
+<p>ノートオフすると出力は 0
+になります。また、ノートオフしなくても、出力が 1/65536
+未満になると、出力は 0 になります。</p>
+<p><img src="./expEnv.png" width=50%></p>
+<div class="caution">
+<p>次のように、エンベロープをパイプで接続しないでください：</p>
+<pre><code>pulseOsc | expEnv { ratioPerSec: 1 / 8 }</code></pre>
+<p>オシレータの出力にエンベロープを適用することを意図していますが、そうはなりません。</p>
+<p>エンベロープは「入力にエンベロープを適用するエフェクト」ではなく、「エンベロープを出力するジェネレータ」であり、入力を取りません。
+エンベロープをエフェクトのように接続すると、オシレータの出力は無視され、結果として出力は単なるエンベロープの値になってしまいます（音としては聞こえません）。
+エンベロープを適用するには <code>*</code> を使ってください。</p>
+</div>
+</body>
+</html>

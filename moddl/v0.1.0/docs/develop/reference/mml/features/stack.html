@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-のスタックについて">MML のスタックについて</h1>
+<p>ここでは MML
+が備える<strong>スタック</strong>の機構について解説します。</p>
+<h2 id="mml-の状態について">MML の状態について</h2>
+<p>前提として、MML は「状態」を持っています。</p>
+<p>状態とは、MML
+の処理中に記憶している値のことです。たとえば、<code>o</code>
+コマンドで設定するオクターブや <code>l</code>
+コマンドで設定するデフォルト音長は状態の一種です。状態の影響によって、同じ
+MML の文字列を解釈しても、結果が異なる場合があります。</p>
+<pre><code>o4l8
+cde2 // = o4c8 o4d8 o4e2
+
+o5l4
+cde2 // = o5c4 o5d4 o5e2</code></pre>
+<p>MML における状態には以下のものがあります：</p>
+<ul>
+<li>オクターブ</li>
+<li>音長・音長比</li>
+<li>スラーの状態</li>
+<li>ボリューム・ベロシティ</li>
+<li>テンポ</li>
+<li>その他のレジスタの値</li>
+</ul>
+<h2 id="スタックによる状態管理">スタックによる状態管理</h2>
+<p>ここからスタックの説明に入ります。</p>
+<p>ModDL の MML
+処理系では、状態を管理するためにスタックの機構を設けています。</p>
+<p>スタックとは、各種設定値の状態を記憶（push）し、その状態を後から復元（pop）できる機構です。スタックを
+push した後で設定を変更しても、スタックを pop すれば、push
+した後に行った変更は破棄され、push する直前の状態に戻ります。</p>
+<p>スタックを push した後、pop しないままさらに push
+することもできます。その場合、状態がその都度記憶されます。その後 1 回
+pop すると、2 回目の push を行う直前の状態が復元されます。さらに pop
+すると、最初の push の直前の状態が復元されます。</p>
+<p>MML でスタックを push/pop するには、<code>{</code> … <code>}</code>
+コマンドを使います。<code>{</code> の時点で各種設定値が push
+され、<code>}</code> で pop されます。</p>
+<p>たとえば、以下の MML は：</p>
+<pre><code>l4 cde { l8 cde { l16 cde l32 fga } fga } fga</code></pre>
+<p>以下と等価になります：</p>
+<pre><code>l4 cde l8 cde l16 cde l32 fga l8 fga l4 fga</code></pre>
+<p><img src="./stack.png" width=50%></p>
+<p><code>{</code> … <code>}</code> を使う以外でもスタックが push/pop
+されることがあります。次の機能を使ったときです：</p>
+<ul>
+<li>ループ <code>[</code>n … <code>]</code></li>
+<li>マクロ呼び出し <code>$</code>m</li>
+</ul>
+<p>ループは、開始時にスタックが push され、終了時に pop
+されます。このため、ループの中で状態を変更しても、ループの終了後の状態に影響を及ぼすことはありません。</p>
+<p>たとえば、以下の MML は：</p>
+<pre><code>o2l8 [4 cl16&gt;cc] cccc</code></pre>
+<p>以下と等価になります：</p>
+<pre><code>o2 cl16&gt;cc l8&lt; cl16&gt;cc l8&lt; cl16&gt;cc l8&lt; cl16&gt;cc l8&lt; cccc</code></pre>
+<p>ループの中でオクターブと音長を明示的に復元していませんが、これらはループの次の周に入る際に自動的に復元されます。また、ループを脱出する際にも復元されます。</p>
+<div class="note">
+<p>ループ終端で状態が復元されるのは、伝統的な多くの MML
+の仕様とは異なるところでしょう。</p>
+</div>
+<div class="note">
+<p>実は <code>{</code> … <code>}</code> は <code>[1</code> …
+<code>]</code> と等価です。</p>
+</div>
+<p>マクロの呼び出しでは、呼び出しの開始時にスタックが push
+され、終了時に pop されます。</p>
+<p>スタックはトラックごとに独立しています。</p>
+</body>
+</html>

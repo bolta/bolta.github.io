@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command-q"><span class="title-type">MML command
+</span><code>q</code></h1>
+<p>音長比（gate rate）を設定します。</p>
+<h2 id="書式">書式</h2>
+<p><code>q</code>&lt;value&gt;</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>value</p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>音長比を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>「音符の音長」に対する「実際に発音する音長」の比率を設定します。</p>
+<p>value の最小は <code>0</code>、最大は <code>8</code>
+で、実際に発音する音長は音符の音長の value/8 倍になります。</p>
+<p>音長は tick 単位で計算され、端数は切り捨てられます。</p>
+<p><code>q</code> コマンドを一度も使っていない状態では、<code>q8</code>
+が指定されているものと見なされます。</p>
+</body>
+</html>

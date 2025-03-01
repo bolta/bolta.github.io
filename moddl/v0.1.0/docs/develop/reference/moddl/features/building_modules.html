@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="モジュールの構築">モジュールの構築</h1>
+<p>以前に簡単に触れたモジュールの構築方法について、ここで詳しく解説します。</p>
+<p>すでに述べた通り、モジュールを構築するにはモジュール定義を記述します。以下の説明では、ModDL
+で記述したモジュール定義と、そこから生成されるモジュールの構造とを併せて示していきます。</p>
+<h2 id="ノードの生成">ノードの生成</h2>
+<p>単独のノードを生成するには、モジュール定義の一種である<strong>ノード定義</strong>を使います。</p>
+<p>たとえば、ノード定義の一種である <code>sineOsc</code>
+を記述すると、正弦波のオシレータが生成されます。</p>
+<pre><code>sineOsc</code></pre>
+<p><img src="./sineOsc.png" width=50%></p>
+<p>ノードの種類によっては、パラメータ入力を受け付けるものがあります。たとえばノード定義
+<code>lpf</code>
+から生成されるノード（以下、混乱の恐れがなければ簡単に「<code>lpf</code>
+のノード」とか、単に「<code>lpf</code>」とも言うことにします）は、パラメータ入力として
+<code>freq</code> と <code>q</code>
+を受け付けるようになっています。これらに値を設定するには次のように記述します：</p>
+<pre><code>lpf { freq: 8000, q: 10 }</code></pre>
+<p><img src="./lpf1.png" width=50%></p>
+<p><code>lpf</code>
+のこれらのパラメータは必須であり、指定しないとエラーになります。たとえば次のような記述はエラーになります：</p>
+<pre><code>// 全てエラー
+lpf
+lpf { freq: 8000 }
+lpf { q: 10 }</code></pre>
+<p>一方、パラメータを省略できるノードもあります。たとえば
+<code>adsrEnv</code> は 5 つのパラメータ入力 <code>attack</code>,
+<code>decay</code>, <code>sustain</code>, <code>release</code>,
+<code>initial</code>
+を取りますが、これらは全て省略することができます。省略した場合、それぞれのデフォルト値である
+<code>0</code>, <code>0</code>, <code>1</code>, <code>0</code>,
+<code>1</code> が補われます。</p>
+<pre><code>adsrEnv</code></pre>
+<p><img src="./adsrEnv1.png" width=50%></p>
+<p>一部のパラメータだけを指定することもできます：</p>
+<pre><code>adsrEnv { initial: 0.5, attack: 1.5 }</code></pre>
+<p><img src="./adsrEnv2.png" width=50%></p>
+<!-- TODO この辺の説明、data\reference\data_types_and_value_notations.yaml とかぶっている。要整理 -->
+<h2 id="ノードの接続">ノードの接続</h2>
+<p>あるノードの出力を別のノードの入力に接続する方法を解説します。接続する先の入力が主入力かパラメータ入力かによって、記述のしかたが異なります。</p>
+<p>パラメータ入力の場合は、これまで見てきた通りです：</p>
+<pre><code>lpf { freq: 8000, q: 10 }</code></pre>
+<p><img src="./lpf1.png" width=50%></p>
+<p>このとき、定数 <code>8000</code> を出力するノードが <code>lpf</code>
+のパラメータ入力 <code>freq</code> に、<code>10</code>
+を出力するノードが <code>q</code> に、それぞれ接続されています。</p>
+<div class="note">
+<p><code>8000</code> や <code>10</code>
+は数値ですが、ノード定義の入力として使われているため「数値を出力するノードのノード定義」として解釈されます。</p>
+</div>
+<p>これに対して主入力の場合は、ノード定義同士を <code>|</code>
+演算子で連結します。先ほどの <code>lpf</code> に <code>sawOsc</code>
+の出力を入力するには次のようにします：</p>
+<pre><code>sawOsc | lpf { freq: 8000, q: 10 }</code></pre>
+<p><img src="./sawOsc-lpf.png" width=50%></p>
+<h2 id="数値演算">数値演算</h2>
+<p>ノードの出力に対して数値演算を行うこともできます。</p>
+<p>ノード定義に対して演算子を適用すると、演算子は「ノードの出力に対して演算を行うノードのノード定義」として解釈されます。このとき、演算の相手が数値であれば、こちらも「数値を出力するノードのノード定義」と解釈されます。</p>
+<pre><code>sineOsc + 1</code></pre>
+<p><img src="./calc1.png" width=50%></p>
+<div class="note">
+<p>両方とも数値の場合は数値のまま計算され、ノード定義にはなりません。</p>
+<pre><code>// 数値の 3 と等価
+2 + 1</code></pre>
+</div>
+<h2 id="入力参照">入力参照</h2>
+<p>あるモジュールに入力されてくる値を、モジュール定義の中で明示的に扱いたい場合があります。</p>
+<!-- たとえば、ユニゾンやレイヤーと呼ばれる、複数のオシレータを同じ周波数で同時に鳴らすような構成を考えてみます。 -->
+<p>たとえば、シンセサイザの方式の一種、加算合成を考えてみましょう。加算合成ではオシレータを複数用意して、それぞれに異なる周波数を与えて同時に発音させます。個々のオシレータに与える周波数は比例関係にあることが多いです。今回はオシレータを
+2 つとし、2 つめのオシレータに与える周波数は 1 つめの 2
+倍としましょう。</p>
+<p>これまでに挙げてきたモジュール定義の例では、ただ 1
+つのオシレータが常にモジュールの入り口（左端）に位置し、その主入力は外部に開かれていました。ここに外部から周波数が入ってくれば、オシレータを望みの周波数で発音させることができました。</p>
+<p>しかし、オシレータが 2 つになると困ります。入ってくる周波数の値を 2
+つのオシレータに分配したいのですが、その方法がありません。「入ってくる周波数の値」がモジュール定義のどこにも明示されていないので、暗黙のうちに
+1 つのオシレータが独占することしかできないのです。</p>
+<p>そこで、ModDL
+では対策を用意しています。それが<strong>入力参照</strong>です。入力参照はその場に入力された値に名前をつける機能であり、<code>=x=&gt;</code>
+という構文で表します。この構文は「ここに入力されてくる値を
+<code>x</code> という名前で参照する」ことを意味します。</p>
+<div class="note">
+<p>正確には、「入力されてくる値を出力しているノード」を名づけていますが、値を名づけていると考えても差し支えありません。</p>
+<p><code>=x=&gt;</code> という記法から、<code>x</code>
+という何かが配線に乗ってやって来る様子を想像してください。</p>
+</div>
+<p>次の定義は、入力されてきた値を <code>freq</code>
+として参照し、その値を sineOsc に入力しています：</p>
+<pre><code>=freq=&gt; freq | sineOsc</code></pre>
+<p>結果としては冒頭で紹介した <code>sineOsc</code> を 1
+つだけ置いた例と同じですが、今回は入力の <code>freq</code>
+が明示されています。</p>
+<p>こうなれば、<code>sineOsc</code> に入力される周波数を 2
+倍にすることは簡単ですし：</p>
+<pre><code>=freq=&gt; (2 * freq) | sineOsc</code></pre>
+<p>さらに 2 つのオシレータを共存させることもできます。2
+つの出力を足し合わせれば、加算合成の完成です：</p>
+<pre><code>=freq=&gt; freq | sineOsc + (2 * freq) | sineOsc</code></pre>
+<div class="note">
+<p><code>|</code>
+演算子は四則演算などの演算子よりも優先度が高いことに注意してください（多くの言語におけるビット演算の
+<code>|</code> 演算子とは異なります）。</p>
+<p>減算合成シンセサイザの基本的な構造である <code>vco | vcf * vca</code>
+を括弧なしで書けるようになっています。</p>
+</div>
+<div class="tips">
+<p>オシレータに入力される周波数を手前で加工するテクニックは「周波数エフェクト」と呼ばれています。</p>
+<p>ここで行った加算合成は、周波数エフェクトの応用例といえます。</p>
+</div>
+<p>入力参照はモジュールの先頭以外でも使うことができます。次の例ではオシレータの出力に
+2 種類のフィルタを適用したのち合成しています：</p>
+<pre><code>sawOsc | =wave=&gt; wave | lpf { freq: 800, q: 10 } + wave | lpf { freq: 1200, q: 10 }</code></pre>
+<p>一般に、入力を複数回使いたい場合や、入力に対して数値演算を行いたい場合は入力参照の出番となります。</p>
+<div class="note">
+<p>暗黙に送られてくる値に名前をつける、という意味では、入力参照は関数型プログラミングでいう無名関数（ラムダ関数）に似た機能といえます。</p>
+<p>ModDL
+には別途無名関数の機能があるので、混同しないよう注意は必要ですが、入力参照を「モジュール定義におけるラムダ関数」と捉えることは有用でしょう。</p>
+</div>
+</body>
+</html>

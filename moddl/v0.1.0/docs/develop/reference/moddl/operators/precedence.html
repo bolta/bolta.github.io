@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="演算子の優先順位">演算子の優先順位</h1>
+<p>ModDL の全ての演算子の優先順位は以下の通りです。</p>
+<p>優先順位は上ほど高く、1
+つのセルに併記したものは結合性に応じて左または右から結合されます。</p>
+<table>
+<tr>
+<th>
+<p>演算子</p>
+</th>
+<th>
+<p>機能</p>
+</th>
+<th>
+<p>結合性</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>(</code> … <code>)</code></p>
+</td>
+<td>
+<p>式のグループ化</p>
+</td>
+<td>
+<p>なし</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>@</code>, <code>#(</code> … <code>)</code>,
+<code>@@</code><br><code>(</code> … <code>)</code>, <code>~</code> …
+<code>(</code> … <code>)</code><br><code>.</code></p>
+</td>
+<td>
+<p>ラベル、ラベル変換、ラベルプレフィックス<br>関数呼び出し、メソッド呼び出し<br>プロパティアクセス</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>-</code>, <code>+</code>, <code>!</code></p>
+</td>
+<td>
+<p>符号変換、論理否定</p>
+</td>
+<td>
+<p>右</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>{</code> … <code>}</code></p>
+</td>
+<td>
+<p>ノード引数</p>
+</td>
+<td>
+<p>なし</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>|</code></p>
+</td>
+<td>
+<p>接続</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>^</code></p>
+</td>
+<td>
+<p>累乗</p>
+</td>
+<td>
+<p>右</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>*</code>, <code>/</code>, <code>%</code></p>
+</td>
+<td>
+<p>乗除算、剰余</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>+</code>, <code>-</code></p>
+</td>
+<td>
+<p>加減算</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>&lt;</code>, <code>&lt;=</code>, <code>==</code>,
+<code>!=</code>, <code>&gt;=</code>, <code>&gt;</code></p>
+</td>
+<td>
+<p>大小・等価比較</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>&amp;&amp;</code></p>
+</td>
+<td>
+<p>論理積</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>||</code></p>
+</td>
+<td>
+<p>論理和</p>
+</td>
+<td>
+<p>左</p>
+</td>
+</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-lpf"><span class="title-type">node def </span>lpf</h1>
+<p><a href="https://www.w3.org/TR/audio-eq-cookbook/"
+target="_blank">Audio EQ Cookbook</a>（以下
+Cookbook）に基づいて実装されたローパスフィルタです。</p>
+<h2 id="主入力">主入力</h2>
+<p>フィルタを適用する対象の信号を受け取ります。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<table>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>必須/省略時</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>freq</code></td>
+<td><strong>必須</strong></td>
+<td>Cookbook における
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>f</mi><mn>0</mn></msub><annotation encoding="application/x-tex">f_0</annotation></semantics></math>
+を指定します。</td>
+</tr>
+<tr class="even">
+<td><code>q</code></td>
+<td><strong>必須</strong></td>
+<td>Cookbook における
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>Q</mi><annotation encoding="application/x-tex">Q</annotation></semantics></math>
+を指定します。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="イベント">イベント</h2>
+<p>イベントを受け取りません。</p>
+<h2 id="出力">出力</h2>
+<p>フィルタが適用された信号を出力します。</p>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../moddl.css" />
+</head>
+<body>
+<h1 id="コマンドライン">コマンドライン</h1>
+<p>コマンドラインの書式は以下の通りです：</p>
+<pre><code>moddl [&lt;options&gt;] &lt;path/to/source.moddl&gt;</code></pre>
+<p><code>&lt;options&gt;</code>
+には以下のものを指定することができます：</p>
+<table>
+<tr>
+<th>
+<p>長いオプション</p>
+</th>
+<th>
+<p>短いオプション</p>
+</th>
+<th>
+<p>意味</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>--output=$output</code></p>
+</td>
+<td>
+<p><code>-O$output</code></p>
+</td>
+<td>
+<p>出力の種別を指定します。<code>--output-file</code>
+とは択一です。<br><code>$output</code> には <code>audio</code>,
+<code>stdout</code>, <code>null</code>
+のいずれかを指定します。<br><code>audio</code>
+を指定すると、オーディオで出力されます。<br><code>stdout</code>
+を指定すると、標準出力に各サンプルの数値が出力されます。<br><code>null</code>
+を指定すると、何も出力されません。<br>デフォルトは <code>audio</code>
+です。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>--output-file=path/to/output.wav</code></p>
+</td>
+<td>
+<p><code>-opath/to/output.wav</code></p>
+</td>
+<td>
+<p>出力の種別に wav
+ファイルを指定します。また、出力先のファイルパスを指定します。<code>--output</code>
+とは択一です。<br>既存ファイルは上書きされます。<br>wav ファイルの品質は
+44.1 kHz, 16
+ビットに固定されています。チャンネル数はソースファイルの記述に依存して 1
+または 2 になります。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>--stack-size=$size</code></p>
+</td>
+<td>
+<p><code>-S$size</code></p>
+</td>
+<td>
+<p>ModDL/MML
+ソースコードを解釈する際のスタックサイズを指定します。<br>複雑な式・長い式を記述してエラーが発生した場合、このオプションで大きな値を指定すると解決する場合があります。<br><code>$size</code>
+はバイト単位の整数値で指定します。整数値の後に
+<code>k</code>（<code>K</code>）または
+<code>m</code>（<code>M</code>）をつけることで KiB・MiB
+単位で指定することもできます。<br>デフォルトは <code>10m</code>
+です。</p>
+</td>
+</tr>
+</table>
+<p>その他</p>
+<ul>
+<li>ファイルパスの区切り文字には <code>\</code> と <code>/</code>
+の両方が使えます。</li>
+</ul>
+</body>
+</html>

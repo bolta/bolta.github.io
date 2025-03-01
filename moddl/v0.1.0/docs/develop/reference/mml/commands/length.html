@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="mml-command-l-l"><span class="title-type">MML command
+</span><code>l</code>, <code>L</code></h1>
+<p>デフォルト音長を設定します。</p>
+<h2 id="書式">書式</h2>
+<p>(<code>l</code>|<code>L</code>)&lt;length&gt;</p>
+<h2 id="パラメータ">パラメータ</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>length</p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>音長を指定します。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p>音符・休符の音長を省略した場合に割り当たる音長を設定します。</p>
+<p>length に指定できるのは 0
+より大きい整数値のみです。付点やタイを使うことはできません。</p>
+<p><code>l</code> コマンドを一度も使っていない状態では、<code>l4</code>
+が指定されているものと見なされます。</p>
+<p>大文字の <code>L</code> を使うこともできます（意味は同じです）。</p>
+</body>
+</html>

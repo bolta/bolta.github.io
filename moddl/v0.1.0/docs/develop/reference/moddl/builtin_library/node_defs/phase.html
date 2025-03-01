@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../../moddl.css" />
+</head>
+<body>
+<h1 id="node-def-phase"><span class="title-type">node def
+</span>phase()</h1>
+<p>自作オシレータのための位相を提供します。</p>
+<h2 id="関数の引数">関数の引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>initial</code></p>
+</td>
+<td>
+<p>Number</p>
+</td>
+<td>
+<p><code>0</code></p>
+</td>
+<td>
+<p>初期位相。</p>
+</td>
+</tr>
+</table>
+<h2 id="主入力">主入力</h2>
+<p>周波数を受け取ります。</p>
+<h2 id="パラメータ入力">パラメータ入力</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>名前</th>
+<th>必須/省略時</th>
+<th>説明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>reset</code></td>
+<td><code>0</code></td>
+<td>リセット信号を接続できます。<br>この値が truthy であるとき、位相が 0
+にリセットされます。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="イベント">イベント</h2>
+<p>イベントを受け取りません。</p>
+<h2 id="出力">出力</h2>
+<p>位相を出力します。</p>
+<h3 id="範囲">範囲</h3>
+<p>[0, τ)</p>
+<h2 id="使用例">使用例</h2>
+<pre><code>// sineOsc を自作する
+phase() | =ph=&gt; sin(ph)</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>phase</code>
+はノード定義を提供する関数であり、それ自体はノード定義ではありません。ノード定義を利用するには関数適用の
+<code>()</code> 演算子が必要です。</p>
+<p>生成されるノードは、入力される周波数に応じた速度で [0, τ)
+の範囲で一様に増加を繰り返す値を出力します。</p>
+<p>出力に <code>sin</code>
+などの変換を適用することで、オシレータを実装することができます。</p>
+<div class="note">
+<p>組み込みのオシレータである <code>pulseOsc</code>,
+<code>sawOsc</code>, <code>sineOsc</code>, <code>triangleOsc</code>
+は内部で位相を管理しているため、<code>phase</code>
+を使う必要はありません。</p>
+</div>
+</body>
+</html>
