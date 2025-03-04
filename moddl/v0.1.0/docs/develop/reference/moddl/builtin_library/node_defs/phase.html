@@ -93,17 +93,28 @@
 <pre><code>// sineOsc を自作する
 phase() | =ph=&gt; sin(ph)</code></pre>
 <h2 id="詳細">詳細</h2>
-<p><code>phase</code>
+<p><a
+href="../../../../reference/moddl/builtin_library/node_defs/phase.html"><code>phase</code></a>
 はノード定義を提供する関数であり、それ自体はノード定義ではありません。ノード定義を利用するには関数適用の
-<code>()</code> 演算子が必要です。</p>
+<a
+href="../../../../reference/moddl/operators/apply_function.html"><code>( )</code></a>
+演算子が必要です。</p>
 <p>生成されるノードは、入力される周波数に応じた速度で [0, τ)
 の範囲で一様に増加を繰り返す値を出力します。</p>
-<p>出力に <code>sin</code>
+<p>出力に <a
+href="../../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>
 などの変換を適用することで、オシレータを実装することができます。</p>
 <div class="note">
-<p>組み込みのオシレータである <code>pulseOsc</code>,
-<code>sawOsc</code>, <code>sineOsc</code>, <code>triangleOsc</code>
-は内部で位相を管理しているため、<code>phase</code>
+<p>組み込みのオシレータである <a
+href="../../../../reference/moddl/builtin_library/node_defs/pulseOsc.html"><code>pulseOsc</code></a>,
+<a
+href="../../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>,
+<a
+href="../../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>,
+<a
+href="../../../../reference/moddl/builtin_library/node_defs/triangleOsc.html"><code>triangleOsc</code></a>
+は内部で位相を管理しているため、<a
+href="../../../../reference/moddl/builtin_library/node_defs/phase.html"><code>phase</code></a>
 を使う必要はありません。</p>
 </div>
 </body>

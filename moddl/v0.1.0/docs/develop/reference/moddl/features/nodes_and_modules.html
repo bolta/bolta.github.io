@@ -45,34 +45,45 @@
 <div class="note">
 <p>主入力がなく、パラメータ入力だけがある場合もあります。</p>
 </div>
-<p>ノードの一種である
-<code>lpf</code>（ローパスフィルタ）を例にすると、<code>lpf</code>
+<p>ノードの一種である <a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>（ローパスフィルタ）を例にすると、<a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
 は入力として主入力と 2 つのパラメータ入力 <code>freq</code>,
 <code>q</code> を取り、出力を生成します。</p>
-<p><code>lpf</code>
+<p><a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
 は主入力に対してフィルタを適用した結果を出力しますが、このときのフィルタの特性を
 <code>freq</code> と <code>q</code> で指定できるようになっています。</p>
 <p><img src="./lpf.png" width=50%></p>
 <p>これらノードの入出力は、他のノードと接続することができます。すなわち、あるノードの出力が、他のノードの主入力になったり、パラメータ入力になったりします。</p>
 <p>先ほどノードの例として、定数と演算、さらにオシレータ、フィルタ、エンベロープを挙げました。これらを組み合わせると、たとえば次のような構造を組み立てることができます。これは原始的な減算合成シンセサイザになっています：</p>
 <p><img src="./subtractive_synth.png" width=50%></p>
-<p>ここで、四角で囲まれているものは全てノードです。<code>sawOsc</code>
-はのこぎり波のオシレータであり、<code>adsrEnv</code> は ADSR
-で制御されるエンベロープジェネレータです。また <code>4000</code> と
-<code>3</code> は定数を提供するノードであり、<code>*</code> は 2
-つの値を乗算するノードです。</p>
+<p>ここで、四角で囲まれているものは全てノードです。<a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+はのこぎり波のオシレータであり、<a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+は ADSR で制御されるエンベロープジェネレータです。また <code>4000</code>
+と <code>3</code> は定数を提供するノードであり、<a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
+は 2 つの値を乗算するノードです。</p>
 <p>このようにノード同士を接続できるのは、ノードの重要な特徴であり、これによって複雑な構造を構築することができます。</p>
 <div class="note">
 <p>上の図では省略されている入力があります：</p>
 <ul>
-<li><code>sawOsc</code> は主入力で周波数を受け取ります。</li>
-<li><code>adsrEnv</code> はパラメータ入力 <code>attack</code>,
-<code>decay</code>, <code>sustain</code>, <code>release</code>,
-<code>initial</code> を受け取ります。</li>
+<li><a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+は主入力で周波数を受け取ります。</li>
+<li><a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+はパラメータ入力 <code>attack</code>, <code>decay</code>,
+<code>sustain</code>, <code>release</code>, <code>initial</code>
+を受け取ります。</li>
 </ul>
 </div>
 <div class="note">
-<p><code>*</code> は 2
+<p><a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
+は 2
 つの入力を取りますが、これらは名前のないパラメータ入力と考えておけば問題ありません。</p>
 <!-- NodeFactory を経ず直接生成されているので、主入力とパラメータ入力の区別がない -->
 </div>
@@ -82,13 +93,17 @@
 <p>イベントの一例として、Note イベントがあります。Note イベントは note
 on（発音を開始する）または note
 off（発音を終了する）のいずれかを表します。</p>
-<p>前の節で紹介した <code>adsrEnv</code> は、この Note
-イベントを処理することができます。<code>adsrEnv</code> は、受け取った
-Note イベントが note on であればアタック処理を開始し、note off
+<p>前の節で紹介した <a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+は、この Note イベントを処理することができます。<a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+は、受け取った Note イベントが note on
+であればアタック処理を開始し、note off
 であればリリース処理を開始します。一般に、エンベロープ系のノードは Note
 イベントを処理するようになっています。</p>
 <p>イベントの送受信の方法は入出力とは異なっています。入出力においては出力から入力に向けて常に値が供給されますが、イベントは何らかの事象が起こったときだけ送受信されます。</p>
-<p><code>adsrEnv</code>
+<p><a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
 はイベントを受信するノードの例でしたが、逆にイベントを送信するノードの例としてはシーケンサが挙げられます。シーケンサは
 MML の内容に沿って、適切なタイミングで Note
 その他のイベントを送信することで、楽曲の演奏を実現しています。</p>
@@ -114,22 +129,35 @@ MML の内容に沿って、適切なタイミングで Note
 <p>モジュールは、インストゥルメント、エフェクト、グルーヴの実装として使われる単位です。</p>
 <p>モジュールの例としては、先ほどの減算合成シンセサイザを再掲すると：</p>
 <p><img src="./subtractive_synth.png" width=50%></p>
-<p>まず、この構造全体が 1
-つのモジュールです。また、その一部である「<code>lpf</code>,
-<code>4000</code>, <code>3</code>
-から成る部分」や「<code>adsrEnv</code>, <code>*</code>
-から成る部分」も、「接続された塊」である以上はモジュールと考えることができます。さらには、<code>sawOsc</code>
-や <code>4000</code> や <code>*</code>
+<p>まず、この構造全体が 1 つのモジュールです。また、その一部である「<a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>,
+<code>4000</code>, <code>3</code> から成る部分」や「<a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>,
+<a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
+から成る部分」も、「接続された塊」である以上はモジュールと考えることができます。さらには、<a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+や <code>4000</code> や <a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
 といった個々のノードもモジュールと見なせます。</p>
 <p>このように、モジュールは入れ子を形成します。また、構造上の様々な部分をモジュールと認定することができます。</p>
-<p>ただし、「<code>sawOsc</code>, <code>lpf</code>, <code>adsrEnv</code>
+<p>ただし、「<a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>,
+<a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>,
+<a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
 から成る部分」のようなものは、接続されていない部分があるため、モジュールではありません。</p>
 <h2 id="モジュール定義">モジュール定義</h2>
 <p><strong>モジュール定義</strong>とは、モジュールを構成するノードとその接続関係を
 ModDL の式として記述したものです。</p>
 <p>ModDL 処理系はモジュール定義を基に必要なモジュールを生成します。</p>
-<p>ModDL の <code>@instrument</code>, <code>@effect</code>,
-<code>@groove</code>
+<p>ModDL の <a
+href="../../../reference/moddl/constructions/instrument.html"><code>instrument</code></a>,
+<a
+href="../../../reference/moddl/constructions/effect.html"><code>effect</code></a>,
+<a
+href="../../../reference/moddl/constructions/groove.html"><code>groove</code></a>
 の各構築文で指定するのは、このモジュール定義です。</p>
 <p>たとえば、先ほどの減算合成シンセサイザをモジュール定義として記述し、インストゥルメントトラックとしてトラック
 a に割り当てるには、次のように記述します：</p>
@@ -155,7 +183,8 @@ ModDL で記述することはできません）。</p>
 <p>結論からいえば心配は無用です。先ほどから述べているように、トラック a,
 b
 で共有しているのはあくまでモジュールの定義であって、モジュールそのものではないからです。</p>
-<p>モジュールの実体は個々の <code>@instrument</code>
+<p>モジュールの実体は個々の <a
+href="../../../reference/moddl/constructions/instrument.html"><code>instrument</code></a>
 文ごとに生成されます。定義が共通であったとしても、トラック a と b
 に対しては<strong>同一内容のモジュールが別個に</strong>生成されるので、問題なく和音を演奏できるのです。</p>
 <div class="tips">
@@ -163,8 +192,13 @@ b
 <ul>
 <li>モジュール定義はクラスのようなもの</li>
 <li>モジュールはそこから生成されるインスタンスのようなもの</li>
-<li>インスタンスの生成は <code>@instrument</code>, <code>@effect</code>,
-<code>@groove</code> 各構築文が暗黙に行う</li>
+<li>インスタンスの生成は <a
+href="../../../reference/moddl/constructions/instrument.html"><code>instrument</code></a>,
+<a
+href="../../../reference/moddl/constructions/effect.html"><code>effect</code></a>,
+<a
+href="../../../reference/moddl/constructions/groove.html"><code>groove</code></a>
+各構築文が暗黙に行う</li>
 </ul>
 </div>
 <div class="note">

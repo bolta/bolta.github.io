@@ -30,7 +30,8 @@
 ModDL で楽曲を演奏する上で不可欠の存在です。</p>
 <p>インストゥルメントに要求される機能は、周波数の時系列を入力として受け取り、波形を出力することです。さらに、送られてくる
 Note イベントを処理することも求められます。</p>
-<p>インストゥルメントを定義するには <code>@instrument</code>
+<p>インストゥルメントを定義するには <a
+href="../../../reference/moddl/constructions/instrument.html"><code>instrument</code></a>
 構築文を使います。定義したインストゥルメントは MML
 を使って演奏することができます。</p>
 <h2 id="最も単純なインストゥルメント">最も単純なインストゥルメント</h2>
@@ -50,7 +51,9 @@ MML の <code>r</code> コマンドや <code>q</code>
 @instrument ^a, sawOsc | adsrEnv</code></pre>
 </div>
 <div class="note">
-<p><code>adsrEnv</code> は 5
+<p><a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+は 5
 つのパラメータ入力を取りますが、ここでは全て省略してデフォルトのまま使っています。これだけでも
 note on/off を処理してくれます。</p>
 </div>
@@ -60,7 +63,8 @@ note on/off を処理してくれます。</p>
 <div class="note">
 <p>ModDL
 でエフェクトを実現する機能としてはエフェクトトラックがあり、それを定義するための
-<code>@effect</code>
+<a
+href="../../../reference/moddl/constructions/effect.html"><code>effect</code></a>
 構築文がありますが、ここではそれらを使いません。エフェクトを適用する対象のインストゥルメントが
 1 つだけならエフェクトトラックは不要です。</p>
 <p>詳細は「<a
@@ -74,8 +78,10 @@ href="effect.html">エフェクトトラックについて</a>」を参照して
 <p>ここで <code>freq</code> はフィルタのカットオフ周波数、<code>q</code>
 は Q 値です。詳細は <a href="https://www.w3.org/TR/audio-eq-cookbook/"
 target="_blank">Audio EQ Cookbook</a> を参照してください。</p>
-<p>フィルタをエンベロープの後に置いてもかまいません（フィルタとエンベロープは順番を入れ替えても結果は変わりません）。ただし、<code>*</code>
-演算子より <code>|</code>
+<p>フィルタをエンベロープの後に置いてもかまいません（フィルタとエンベロープは順番を入れ替えても結果は変わりません）。ただし、<a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
+演算子より <a
+href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
 演算子の方が優先度が高いので、括弧が必要になります：</p>
 <pre><code>@instrument ^a, (sawOsc * adsrEnv) | lpf { freq: 3000, q: 10 }</code></pre>
 <p>フィルタのパラメータに時間的な変化を加えることもできます。次の例ではカットオフ周波数にエンベロープを接続しています。これによりカットオフ周波数はノートオンの瞬間から
@@ -102,33 +108,52 @@ id="インストゥルメントへの入力について">インストゥルメ�
 <p>そして周波数データが入力される先のノードは、次の条件を満たす全てのノードです：</p>
 <ul>
 <li>ノードの仕様として、主入力を受け付ける</li>
-<li>構造において、主入力が割り当たっていない（<code>|</code>
+<li>構造において、主入力が割り当たっていない（<a
+href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
 の右側にない）</li>
 </ul>
 <p>たとえば、次の構造で確認してみます：</p>
 <pre><code>@instrument ^a, sawOsc | lpf { freq: 4000, q: 3 } * adsrEnv</code></pre>
-<p>ここに登場するノードを全て挙げると、<code>sawOsc</code>,
-<code>lpf</code>, <code>4000</code>, <code>3</code>,
-<code>adsrEnv</code>, <code>*</code>
-です。このうち主入力を受け付けるものは <code>sawOsc</code> と
-<code>lpf</code> ですが、このうち <code>lpf</code> は
-<code>sawOsc</code>
+<p>ここに登場するノードを全て挙げると、<a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>,
+<a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>,
+<code>4000</code>, <code>3</code>, <a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>,
+<a
+href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>
+です。このうち主入力を受け付けるものは <a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+と <a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+ですが、このうち <a
+href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+は <a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
 と接続されているため、すでに主入力が割り当たっています。よって周波数を受け取るのは
-<code>sawOsc</code> のみとなります。</p>
+<a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+のみとなります。</p>
 <p>少し問題を変えてみます。次のようにしてオシレータを 3
 つに増やした場合：</p>
 <pre><code>@instrument ^a, ((sawOsc + pulseOsc) | lpf { freq: 4000, q: 3 } + triangleOsc) * adsrEnv</code></pre>
 <p>これらのオシレータはモジュール内の様々な位置にありますが、どれも等しく「主入力を受け付けるが主入力が割り当たっていない」状況にあります。したがって周波数はこれら全てに供給され、結果として
 3
 つのオシレータはユニゾンで発音します。このように、周波数を受け取るノードは複数あってもかまいません。</p>
-<p>ここで <code>sawOsc</code>
+<p>ここで <a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
 だけ、入力を変えてみます。次のように入力を明示することで実現できます：</p>
 <pre><code>@instrument ^a, ((440 | sawOsc + pulseOsc) | lpf { freq: 4000, q: 3 } + triangleOsc) * adsrEnv</code></pre>
-<p>こうすれば <code>sawOsc</code> は常に 440 Hz
-で発音するようになります。主入力が割り当たった <code>sawOsc</code>
+<p>こうすれば <a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+は常に 440 Hz で発音するようになります。主入力が割り当たった <a
+href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
 にはもはやシーケンサの周波数は提供されず、シーケンサの周波数が供給されるのは
-<code>pulseOsc</code> と <code>triangleOsc</code> の 2
-つとなります。</p>
+<a
+href="../../../reference/moddl/builtin_library/node_defs/pulseOsc.html"><code>pulseOsc</code></a>
+と <a
+href="../../../reference/moddl/builtin_library/node_defs/triangleOsc.html"><code>triangleOsc</code></a>
+の 2 つとなります。</p>
 <h2
 id="もう一種類のエフェクト周波数エフェクト">もう一種類のエフェクト：周波数エフェクト</h2>
 <p>ここまで述べてきたように、インストゥルメントは周波数を受け取り、波形を出力します。</p>
@@ -179,13 +204,16 @@ id="もう一種類のエフェクト周波数エフェクト">もう一種類�
 </div>
 <h3 id="グライド">グライド</h3>
 <p>グライドはポルタメントとも呼ばれています。グライドは標準ライブラリに
-<code>glide</code> として含まれています。</p>
+<a
+href="../../../reference/moddl/builtin_library/node_defs/glide.html"><code>glide</code></a>
+として含まれています。</p>
 <p>グライドは周波数エフェクトとして使われることが想定されています（が、工夫次第で他の用途もあるでしょう）。</p>
 <p>グライドは、入力周波数が一定のときはそのまま出力しますが、入力周波数が変化したときに、新しい入力周波数をすぐには出力に反映せず、入力に出力をゆっくり近づけていきます。これも多くのシンセサイザに装備されています。</p>
 <pre><code>@instrument ^a, glide { halflife: 0.1 } | sawOsc * adsrEnv</code></pre>
 <h3 id="その他">その他</h3>
 <p>通常は波形エフェクト（いわゆる普通のエフェクト）であるものを周波数エフェクトに使い回すと、様々な可能性があるはずです。</p>
-<p>たとえば周波数に <code>adsrEnv</code>
+<p>たとえば周波数に <a
+href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
 を適用すると、癖のあるピッチ変化を実現できるはずです。これはドラム音などの表現に有用かもしれません。</p>
 <p>君だけの周波数エフェクトを作ろう！</p>
 </body>

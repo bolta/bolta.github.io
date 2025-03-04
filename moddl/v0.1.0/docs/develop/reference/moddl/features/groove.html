@@ -120,7 +120,8 @@ ticksPerBar に比例する</li>
 <p>グラフの大まかな見方として、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">y = x</annotation></semantics></math>
 を境として、右下側を通ると「ためた」リズムに、左上側を通ると「走った」リズムになることは覚えておくと便利でしょう。</p>
 </div>
-<p>上の関数を <code>groove</code>
+<p>上の関数を <a
+href="../../../reference/moddl/constructions/groove.html"><code>groove</code></a>
 構築文で実装すると、次のようになります：</p>
 <pre><code>@grooveCycle 48
 @groove ^G, ^a, =x=&gt; if x &lt; 32 // x &lt; 0 や 48 &lt;= x の値は来ないので考慮不要
@@ -136,7 +137,8 @@ ticksPerBar に比例する</li>
 <li><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>r</mi><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow><mo>≤</mo><mi>x</mi><mo>&lt;</mo><mn>2</mn><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">2r\mathrm{ticks} \le x &lt; 2\mathrm{ticks}</annotation></semantics></math>
 のとき、<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo>=</mo><mfrac><mn>1</mn><mrow><mn>2</mn><mrow><mo stretchy="true" form="prefix">(</mo><mn>1</mn><mo>−</mo><mi>r</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mi>x</mi><mo>+</mo><mfrac><mrow><mn>1</mn><mo>−</mo><mn>2</mn><mi>r</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>r</mi></mrow></mfrac><mrow><mi mathvariant="normal">t</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">c</mi><mi mathvariant="normal">k</mi><mi mathvariant="normal">s</mi></mrow></mrow><annotation encoding="application/x-tex">y = \frac{1}{2(1 - r)}x + \frac{1 - 2r}{1 - r}\mathrm{ticks}</annotation></semantics></math></li>
 </ul>
-<p>これを関数を <code>groove</code>
+<p>これを <a
+href="../../../reference/moddl/constructions/groove.html"><code>groove</code></a>
 構築文で実装すると、次のようになります：</p>
 <pre><code>@let :ticksPerBar, 384
 @ticksPerBar ticksPerBar
@@ -187,8 +189,10 @@ even なトラックと groove を適用したトラックが共存したり、�
 <p>grooveCycle の先頭の tick を遅らせたり早めたりする groove
 は現在は定義できません。別途ディレイを挟むなどの方法をとってください。</p>
 <h3 id="t-コマンドを使った方法"><code>t</code> コマンドを使った方法</h3>
-<p>跳ねたリズムを実現するには、MML の <code>t</code>
-コマンドを使うこともできます。ただし、<code>t</code>
+<p>跳ねたリズムを実現するには、MML の <a
+href="../../../reference/mml/commands/tempo.html"><code>t</code></a>
+コマンドを使うこともできます。ただし、<a
+href="../../../reference/mml/commands/tempo.html"><code>t</code></a>
 コマンドは全てのトラックに作用するので、トラックごとに跳ねの有無や程度を変えることはできません。</p>
 <p>テンポ
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
