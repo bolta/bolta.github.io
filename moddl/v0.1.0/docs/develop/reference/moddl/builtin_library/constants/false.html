@@ -34,15 +34,15 @@
 <h2 id="詳細">詳細</h2>
 <p>「偽」を表現する値として、他の値を使う理由が特になければ、この値を使うことが推奨されます。</p>
 <p>ただし、「偽」と解釈される値は他にもあるため（全ての負の数値と 0
-が該当します）、真偽を判定する目的で <a
-href="../../../../reference/moddl/builtin_library/constants/false.html"><code>false</code></a>
+が該当します）、真偽を判定する目的で
+<a href="../../../../reference/moddl/builtin_library/constants/false.html"><code>false</code></a>
 と比較することは避けてください。</p>
 <p>次の例では、<code>value</code> = 0
 などの場合、「偽」であるにもかかわらず結果は <code>"true"</code>
 になってしまいます：</p>
 <pre><code>if value == false then &quot;false&quot; else &quot;true&quot;</code></pre>
-<p>「偽」であることを判定するには <a
-href="../../../../reference/moddl/operators/not.html"><code>!</code></a>
+<p>「偽」であることを判定するには
+<a href="../../../../reference/moddl/operators/not.html"><code>!</code></a>
 演算子を使ってください：</p>
 <pre><code>if ! value then &quot;false&quot; else &quot;true&quot;</code></pre>
 </body>

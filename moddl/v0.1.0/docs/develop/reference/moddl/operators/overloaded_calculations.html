@@ -35,53 +35,35 @@ id="多くの数値演算演算子および数値関数">多くの数値演算�
 の場合」とで異なる演算を行うようになっています。</p>
 <p>これに該当するのは以下の演算です：</p>
 <ul>
-<li>2 項演算子 <a
-href="../../../reference/moddl/operators/power.html"><code>^</code></a>,
-<a
-href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>,
-<a
-href="../../../reference/moddl/operators/divide.html"><code>/</code></a>,
-<a
-href="../../../reference/moddl/operators/remainder.html"><code>%</code></a>,
-<a
-href="../../../reference/moddl/operators/add.html"><code>+</code></a>,
-<a
-href="../../../reference/moddl/operators/subtract.html"><code>-</code></a>,
-<a
-href="../../../reference/moddl/operators/less_than.html"><code>&lt;</code></a>,
-<a
-href="../../../reference/moddl/operators/less_than_or_equal_to.html"><code>&lt;=</code></a>,
-<a
-href="../../../reference/moddl/operators/equal_to.html"><code>==</code></a>,
-<a
-href="../../../reference/moddl/operators/not_equal_to.html"><code>!=</code></a>,
-<a
-href="../../../reference/moddl/operators/greater_than_or_equal_to.html"><code>&gt;=</code></a>,
-<a
-href="../../../reference/moddl/operators/greater_than.html"><code>&gt;</code></a>,
-<a
-href="../../../reference/moddl/operators/and.html"><code>&amp;&amp;</code></a>,
+<li>2 項演算子
+<a href="../../../reference/moddl/operators/power.html"><code>^</code></a>,
+<a href="../../../reference/moddl/operators/multiply.html"><code>*</code></a>,
+<a href="../../../reference/moddl/operators/divide.html"><code>/</code></a>,
+<a href="../../../reference/moddl/operators/remainder.html"><code>%</code></a>,
+<a href="../../../reference/moddl/operators/add.html"><code>+</code></a>,
+<a href="../../../reference/moddl/operators/subtract.html"><code>-</code></a>,
+<a href="../../../reference/moddl/operators/less_than.html"><code>&lt;</code></a>,
+<a href="../../../reference/moddl/operators/less_than_or_equal_to.html"><code>&lt;=</code></a>,
+<a href="../../../reference/moddl/operators/equal_to.html"><code>==</code></a>,
+<a href="../../../reference/moddl/operators/not_equal_to.html"><code>!=</code></a>,
+<a href="../../../reference/moddl/operators/greater_than_or_equal_to.html"><code>&gt;=</code></a>,
+<a href="../../../reference/moddl/operators/greater_than.html"><code>&gt;</code></a>,
+<a href="../../../reference/moddl/operators/and.html"><code>&amp;&amp;</code></a>,
 <a href="../../../reference/moddl/operators/or.html"><code>||</code></a>
 <ul>
-<li>ただし、<a
-href="../../../reference/moddl/operators/add.html"><code>+</code></a> や
-<code>==</code>
+<li>ただし、<a href="../../../reference/moddl/operators/add.html"><code>+</code></a>
+や
+<a href="../../../reference/moddl/operators/equal_to.html"><code>==</code></a>
 など、さらに特殊なオーバーロードをもつ演算子も存在します。詳しくはそれぞれの記事を参照してください。</li>
 </ul></li>
-<li>単項演算子 <a
-href="../../../reference/moddl/operators/not.html"><code>!</code></a>,
-<a
-href="../../../reference/moddl/operators/negate.html"><code>-</code></a>,
-<a
-href="../../../reference/moddl/operators/plus.html"><code>+</code></a></li>
-<li>全ての数値関数。<a
-href="../../../reference/moddl/builtin_library/functions/log.html"><code>log</code></a>,
-<a
-href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>,
-<a
-href="../../../reference/moddl/builtin_library/functions/abs.html"><code>abs</code></a>,
-<a
-href="../../../reference/moddl/builtin_library/functions/round.html"><code>round</code></a>
+<li>単項演算子
+<a href="../../../reference/moddl/operators/not.html"><code>!</code></a>,
+<a href="../../../reference/moddl/operators/negate.html"><code>-</code></a>,
+<a href="../../../reference/moddl/operators/plus.html"><code>+</code></a></li>
+<li>全ての数値関数。<a href="../../../reference/moddl/builtin_library/functions/log.html"><code>log</code></a>,
+<a href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>,
+<a href="../../../reference/moddl/builtin_library/functions/abs.html"><code>abs</code></a>,
+<a href="../../../reference/moddl/builtin_library/functions/round.html"><code>round</code></a>
 等々</li>
 </ul>
 <p>引数の型に応じた動作を以下に説明します。</p>
@@ -92,12 +74,11 @@ href="../../../reference/moddl/builtin_library/functions/round.html"><code>round
 になります。</p>
 <p>この演算は、定義フェーズで ModDL
 インタプリタによって行われます。演奏開始時にはすでに値が確定しているため、演奏フェーズでサンプルごとに演算が行われるようなことはありません。</p>
-<p>他の演算、たとえば <a
-href="../../../reference/moddl/operators/not.html"><code>!</code></a>
-のような単項演算であったり、<a
-href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>
-や <a
-href="../../../reference/moddl/builtin_library/functions/floor.html"><code>floor</code></a>
+<p>他の演算、たとえば
+<a href="../../../reference/moddl/operators/not.html"><code>!</code></a>
+のような単項演算であったり、<a href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>
+や
+<a href="../../../reference/moddl/builtin_library/functions/floor.html"><code>floor</code></a>
 のような関数で表現される演算であっても扱いは同様です。<code>! true</code>
 は定義フェーズで <code>false</code>（= <code>-1</code>）となり、同様に
 <code>sin(0)</code> は <code>0</code> となります。</p>
@@ -106,13 +87,12 @@ href="../../../reference/moddl/builtin_library/functions/floor.html"><code>floor
 <p>一方、演算に ModuleDef が関係する場合は、結果も ModuleDef
 になります。</p>
 <p>たとえば、<code>@let :output, sineOsc + sawOsc</code>
-という文を考えます。ここでは先ほどの例と異なり、<a
-href="../../../reference/moddl/operators/add.html"><code>+</code></a>
+という文を考えます。ここでは先ほどの例と異なり、<a href="../../../reference/moddl/operators/add.html"><code>+</code></a>
 の引数はどちらも ModuleDef となっています（NodeDef も ModuleDef
-の一種です）。この場合、演算の結果は「入力として <a
-href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
-と <a
-href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
+の一種です）。この場合、演算の結果は「入力として
+<a href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
+と
+<a href="../../../reference/moddl/builtin_library/node_defs/sawOsc.html"><code>sawOsc</code></a>
 の出力を受け取り、それらを足し合わせたものを出力するノードの
 ModuleDef」となります。</p>
 <p><img src="./node_structure_calculation.png" width=50%></p>
@@ -152,10 +132,10 @@ Number となります。</p>
 <code>sqrt(x ^ 2 + y ^ 2)</code> までも ModuleDef になります。</p>
 <p><code>y</code> を ModuleDef
 にした場合も同様の過程を経て同じ結果になるので、結局 <code>dist</code>
-関数は組み込みの <a
-href="../../../reference/moddl/operators/add.html"><code>+</code></a> や
-<a
-href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>
+関数は組み込みの
+<a href="../../../reference/moddl/operators/add.html"><code>+</code></a>
+や
+<a href="../../../reference/moddl/builtin_library/functions/sin.html"><code>sin</code></a>
 と全く同様にオーバーロードされていることになります。</p>
 <p>このように、基本的な数値演算がオーバーロードされていることに端を発して、より複雑な計算においても自動的にオーバーロードのメリットを享受することができます。</p>
 </body>

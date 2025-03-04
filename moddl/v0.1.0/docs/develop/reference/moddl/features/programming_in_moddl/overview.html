@@ -40,7 +40,7 @@ MML 文の 2 種類から成っています。</p>
 から成る文であり、指定したトラックの時間的なふるまい（いわゆる「譜面」）を定義します。</p>
 <p>以下で説明するプログラミング言語としての機能は、これらのうち主に構築文と密接に関連しています。</p>
 <p>MML については「<a href="../../../../reference/mml/toc.html">MML
-リファレンス</a>」で詳細に説明します。</p>
+リファレンス </a>」で詳細に説明します。</p>
 <p>文と文の境界は、行末です。ただし、一定の条件下で複数行にまたがって文を続けることができます。</p>
 <div class="note">
 <p>複数行にまたがって文を続けられるのは、概ね以下の場合です：</p>
@@ -92,10 +92,10 @@ Array）を省略したものであり、「連想配列」の名称はプログ
 つはファイルスコープ変数で、定義以降のファイル中の任意の場所から参照できます（ローカル変数で隠された場合を除きます）。もう
 1
 つはローカル変数で、定義した個所からその式の終わりまでの間だけ参照できます。</p>
-<p>ファイルスコープ変数は、構築文 <a
-href="../../../../reference/moddl/constructions/let.html"><code>let</code></a>
-または <a
-href="../../../../reference/moddl/constructions/letAll.html"><code>letAll</code></a>
+<p>ファイルスコープ変数は、構築文
+<a href="../../../../reference/moddl/constructions/let.html"><code>let</code></a>
+または
+<a href="../../../../reference/moddl/constructions/letAll.html"><code>letAll</code></a>
 で定義します。一方ローカル変数は、式の中で <code>let</code>
 式を使って定義します。</p>
 <div class="note">
@@ -115,8 +115,8 @@ href="../../../../reference/moddl/constructions/letAll.html"><code>letAll</code>
 のような、いわゆる無名関数のみです。名前のついた関数を定義するには、無名関数を値とする変数を定義します。</p>
 <pre><code>@let :dist, (x, y) -&gt; sqrt(x ^ 2 + y ^ 2)
 @let :d, dist(3, 4) // d = 5</code></pre>
-<p>関数を引数に適用するには、上記のように関数型の値に <a
-href="../../../../reference/moddl/operators/apply_function.html"><code>( )</code></a>
+<p>関数を引数に適用するには、上記のように関数型の値に
+<a href="../../../../reference/moddl/operators/apply_function.html"><code>( )</code></a>
 演算子で引数を指定します。</p>
 <p>なお、関数の適用にはもう一つの構文があり、通常であれば
 <code>f(a1, a2, ...)</code> であるところ、関数の最初の引数を先頭に書いて
@@ -139,24 +139,21 @@ map([0, 1, 2, 3, 4], x -&gt; x ^ 2)
 <h2 id="制御構造">制御構造</h2>
 <p>関数型言語である ModDL には、手続き型言語で一般的な
 <code>while</code> や <code>for</code> などの制御構造はありません。</p>
-<p>代わりに、高階関数である <a
-href="../../../../reference/moddl/builtin_library/functions/map.html"><code>map</code></a>,
-<a
-href="../../../../reference/moddl/builtin_library/functions/filter.html"><code>filter</code></a>,
-<a
-href="../../../../reference/moddl/builtin_library/functions/reduce.html"><code>reduce</code></a>
+<p>代わりに、高階関数である
+<a href="../../../../reference/moddl/builtin_library/functions/map.html"><code>map</code></a>,
+<a href="../../../../reference/moddl/builtin_library/functions/filter.html"><code>filter</code></a>,
+<a href="../../../../reference/moddl/builtin_library/functions/reduce.html"><code>reduce</code></a>
 等を使うことで、制御構造と同等の処理を行えるようになっています。</p>
 <p><code>if</code>
 については文ではなく式として存在します。条件が成り立つ場合と成り立たない場合とで式の値が変わります。どちらの場合も値が必要なので、<code>else</code>
 節は省略できません。</p>
 <h2 id="ファイル分割">ファイル分割</h2>
 <p>よく使うモジュール等を別のファイルに切り出して、複数のファイルから参照することができます。</p>
-<p><a
-href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
+<p><a href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
 構築文を使うと、任意の値を他の ModDL
 ファイルに対して公開することができます。</p>
-<p>公開した値は、他の ModDL ファイルから <a
-href="../../../../reference/moddl/builtin_library/functions/import.html"><code>import</code></a>
+<p>公開した値は、他の ModDL ファイルから
+<a href="../../../../reference/moddl/builtin_library/functions/import.html"><code>import</code></a>
 関数で取り込むことができます。</p>
 </body>
 </html>

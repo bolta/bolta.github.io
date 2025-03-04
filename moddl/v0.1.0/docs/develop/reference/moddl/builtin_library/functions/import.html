@@ -73,8 +73,8 @@
 <p>*</p>
 </td>
 <td>
-<p><code>path</code> で指定された ModDL ソースファイルの <a
-href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
+<p><code>path</code> で指定された ModDL ソースファイルの
+<a href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
 文で公開されている値。</p>
 </td>
 </tr>
@@ -110,21 +110,19 @@ a cdefg</code></pre>
 <code>../</code> で始まる相対パスでなければなりません。<code>./</code>
 か <code>../</code>
 で始まらない相対パスは予約されており、現在のバージョンでは使えません。</p>
-<p><code>path</code> で指定された ModDL ソースファイルに <a
-href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
+<p><code>path</code> で指定された ModDL ソースファイルに
+<a href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
 文がない場合、<code>ExportNotFound</code> エラーになります。</p>
-<p><a
-href="../../../../reference/moddl/builtin_library/functions/import.html"><code>import</code></a>
+<p><a href="../../../../reference/moddl/builtin_library/functions/import.html"><code>import</code></a>
 関数で取得した値に ModuleDef
 型の値が含まれる場合（配列や連想（さらにはネストしたそれら）の要素・値として間接的に含まれる場合を含みます）、その中で定義されたレジスタは、そのままでは使えません。これは値を取り込む側とのレジスタ名の衝突を回避するため、そのままでは使えないようガードする措置が施されているためです。ガードを解除するには、取得した
-ModuleDef 型の値に <a
-href="../../../../reference/moddl/operators/transform_registers.html"><code>#( )</code></a>
-または <a
-href="../../../../reference/moddl/operators/prefix_registers.html"><code>@@</code></a>
+ModuleDef 型の値に
+<a href="../../../../reference/moddl/operators/transform_registers.html"><code>#( )</code></a>
+または
+<a href="../../../../reference/moddl/operators/prefix_registers.html"><code>@@</code></a>
 演算子を適用します（レジスタの取捨選択や変換が行われると同時にガードが解除されます。使用例の
 <code>main2.moddl</code>, <code>main3.moddl</code>
-を参照してください）。全てのレジスタをそのままの名前で取り込む場合は、<a
-href="../../../../reference/moddl/operators/transform_registers.html"><code>#( )</code></a>
+を参照してください）。全てのレジスタをそのままの名前で取り込む場合は、<a href="../../../../reference/moddl/operators/transform_registers.html"><code>#( )</code></a>
 演算子の AllowAll ルールを使い、<code>#(*)</code> とします。</p>
 </body>
 </html>

@@ -30,31 +30,27 @@
 で記述したモジュール定義と、そこから生成されるモジュールの構造とを併せて示していきます。</p>
 <h2 id="ノードの生成">ノードの生成</h2>
 <p>単独のノードを生成するには、モジュール定義の一種である<strong>ノード定義</strong>を使います。</p>
-<p>たとえば、ノード定義の一種である <a
-href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
+<p>たとえば、ノード定義の一種である
+<a href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
 を記述すると、正弦波のオシレータが生成されます。</p>
 <pre><code>sineOsc</code></pre>
 <p><img src="./sineOsc.png" width=50%></p>
 <p>ノードの種類によっては、パラメータ入力を受け付けるものがあります。たとえばノード定義
-<a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
-から生成されるノード（以下、混乱の恐れがなければ簡単に「<a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
-のノード」とか、単に「<a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>」とも言うことにします）は、パラメータ入力として
+<a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+から生成されるノード（以下、混乱の恐れがなければ簡単に「<a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+のノード」とか、単に「<a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>」とも言うことにします）は、パラメータ入力として
 <code>freq</code> と <code>q</code>
 を受け付けるようになっています。これらに値を設定するには次のように記述します：</p>
 <pre><code>lpf { freq: 8000, q: 10 }</code></pre>
 <p><img src="./lpf1.png" width=50%></p>
-<p><a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+<p><a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
 のこれらのパラメータは必須であり、指定しないとエラーになります。たとえば次のような記述はエラーになります：</p>
 <pre><code>// 全てエラー
 lpf
 lpf { freq: 8000 }
 lpf { q: 10 }</code></pre>
-<p>一方、パラメータを省略できるノードもあります。たとえば <a
-href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
+<p>一方、パラメータを省略できるノードもあります。たとえば
+<a href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>adsrEnv</code></a>
 は 5 つのパラメータ入力 <code>attack</code>, <code>decay</code>,
 <code>sustain</code>, <code>release</code>, <code>initial</code>
 を取りますが、これらは全て省略することができます。省略した場合、それぞれのデフォルト値である
@@ -71,18 +67,18 @@ href="../../../reference/moddl/builtin_library/node_defs/adsrEnv.html"><code>ads
 <p>パラメータ入力の場合は、これまで見てきた通りです：</p>
 <pre><code>lpf { freq: 8000, q: 10 }</code></pre>
 <p><img src="./lpf1.png" width=50%></p>
-<p>このとき、定数 <code>8000</code> を出力するノードが <a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+<p>このとき、定数 <code>8000</code> を出力するノードが
+<a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
 のパラメータ入力 <code>freq</code> に、<code>10</code>
 を出力するノードが <code>q</code> に、それぞれ接続されています。</p>
 <div class="note">
 <p><code>8000</code> や <code>10</code>
 は数値ですが、ノード定義の入力として使われているため「数値を出力するノードのノード定義」として解釈されます。</p>
 </div>
-<p>これに対して主入力の場合は、ノード定義同士を <a
-href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
-演算子で連結します。先ほどの <a
-href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
+<p>これに対して主入力の場合は、ノード定義同士を
+<a href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
+演算子で連結します。先ほどの
+<a href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</code></a>
 に <code>sawOsc</code> の出力を入力するには次のようにします：</p>
 <pre><code>sawOsc | lpf { freq: 8000, q: 10 }</code></pre>
 <p><img src="./sawOsc-lpf.png" width=50%></p>
@@ -119,20 +115,18 @@ href="../../../reference/moddl/builtin_library/node_defs/lpf.html"><code>lpf</co
 <p>次の定義は、入力されてきた値を <code>freq</code>
 として参照し、その値を sineOsc に入力しています：</p>
 <pre><code>=freq=&gt; freq | sineOsc</code></pre>
-<p>結果としては冒頭で紹介した <a
-href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
+<p>結果としては冒頭で紹介した
+<a href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
 を 1 つだけ置いた例と同じですが、今回は入力の <code>freq</code>
 が明示されています。</p>
-<p>こうなれば、<a
-href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
+<p>こうなれば、<a href="../../../reference/moddl/builtin_library/node_defs/sineOsc.html"><code>sineOsc</code></a>
 に入力される周波数を 2 倍にすることは簡単ですし：</p>
 <pre><code>=freq=&gt; (2 * freq) | sineOsc</code></pre>
 <p>さらに 2 つのオシレータを共存させることもできます。2
 つの出力を足し合わせれば、加算合成の完成です：</p>
 <pre><code>=freq=&gt; freq | sineOsc + (2 * freq) | sineOsc</code></pre>
 <div class="note">
-<p><a
-href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
+<p><a href="../../../reference/moddl/operators/connect.html"><code>|</code></a>
 演算子は四則演算などの演算子よりも優先度が高いことに注意してください（多くの言語におけるビット演算の
 <code>|</code> 演算子とは異なります）。</p>
 <p>減算合成シンセサイザの基本的な構造である <code>vco | vcf * vca</code>
