@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-number"><span class="title-type">data type
+</span>Number</h1>
+<p><strong>数値</strong>を表す型です。ModDL の数値は全て 32
+ビット浮動小数点数です。</p>
+<h2 id="記法">記法</h2>
+<p>正負の整数・小数を、一般的な記法で記述することができます。ただし指数表記はありません。</p>
+<h2 id="記述例">記述例</h2>
+<pre><code>42
+-3.14
+.5</code></pre>
+<h2 id="詳細">詳細</h2>
+<p>ModDL
+では一般的な数値のほか真偽値についても数値で表し、真偽値のための独立した型はありません。真偽値としての数値の解釈では、<strong>正の数値を真、負の数値と
+0
+を偽</strong>とします。一般的なプログラミング言語の解釈とは異なるので注意してください。</p>
+<p>便宜的に、<a href="../../../reference/moddl/data_types/Number.html"><em>Number</em></a>
+型の部分型として、1 と -1 だけを含んだ集合を
+<a href="../../../reference/moddl/data_types/Boolean.html"><em>Boolean</em></a>
+型と呼ぶことがあります。</p>
+</body>
+</html>

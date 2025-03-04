@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-boolean"><span class="title-type">data type
+</span>Boolean</h1>
+<p><a href="../../../reference/moddl/data_types/Number.html"><em>Number</em></a>
+型の部分集合であり、<strong>真偽値</strong>を表す必要最小限の値だけを含む型です。</p>
+<p>正式な型ではなく、仕様を記述する目的にのみ使われます。</p>
+<h2 id="記法">記法</h2>
+<p>基本的に定数である
+<a href="../../../reference/moddl/builtin_library/constants/true.html"><code>true</code></a>,
+<a href="../../../reference/moddl/builtin_library/constants/false.html"><code>false</code></a>
+を使います。それらの値である <code>1</code> または <code>-1</code>
+を直接記述することもできます。</p>
+<h2 id="記述例">記述例</h2>
+<pre><code>true
+false</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><a href="../../../reference/moddl/data_types/Number.html"><em>Number</em></a>
+型の項でも述べた通り、真偽値のための独立した型はありませんが、便宜上、1
+と -1 の 2 つの数値のみから成る集合を
+<a href="../../../reference/moddl/data_types/Boolean.html"><em>Boolean</em></a>
+型と呼ぶ場合があります。</p>
+<p>たとえば関数の適用結果が
+<a href="../../../reference/moddl/data_types/Boolean.html"><em>Boolean</em></a>
+型であると言った場合、その関数は 1 か -1
+だけを返し、その他の数値や数値以外の値は返さないことを意味します。</p>
+<p><a href="../../../reference/moddl/data_types/Boolean.html"><em>Boolean</em></a>
+型は関数などの仕様を記述するための便宜的な概念であり、ModDL
+の型システム上に正式に存在する型ではありません。たとえば
+<a href="../../../reference/moddl/builtin_library/functions/type.html"><code>type</code></a>
+関数が <code>"Boolean"</code> を返すことはありません：</p>
+<pre><code>[true, false]~map(type)
+// ==&gt; [&quot;Number&quot;, &quot;Number&quot;]</code></pre>
+</body>
+</html>
