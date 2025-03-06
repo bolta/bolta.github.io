@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-quotedidentifier"><span class="title-type">data type
+</span>QuotedIdentifier</h1>
+<p><strong>識別子の引用形式</strong>を表す型です。識別子に「変数」として割り当たった値ではなく、識別子の名前そのものを表します。</p>
+<h2 id="値の記法">値の記法</h2>
+<p>識別子の前に <code>:</code> を付けて表します。</p>
+<p>識別子は ASCII の範囲で英数字と <code>_</code>
+を自由に組み合わせて作ることができます。ただし、最初の文字に数字を使うことはできません。大文字と小文字は区別されます。</p>
+<p>例を以下に示します：</p>
+<pre><code>:foo
+:_BAR
+:bazQux345</code></pre>
+<h2 id="詳細">詳細</h2>
+<p><code>let</code> 文や <code>waveform</code>
+文で変数を定義するとき、指定する変数名はこの型の値である必要があります。</p>
+<p>次の <code>let</code> 文では <code>answer</code>
+という名前の変数を定義し、その値は <code>42</code> です：</p>
+<pre><code>@let :answer, 42</code></pre>
+</body>
+</html>

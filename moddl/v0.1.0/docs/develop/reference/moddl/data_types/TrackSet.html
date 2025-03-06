@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-trackset"><span class="title-type">data type
+</span>TrackSet</h1>
+<p><strong>トラックセット</strong>を表す型です。トラックセットは、1
+つ以上のトラック名の集合です。</p>
+<h2 id="値の記法">値の記法</h2>
+<p><code>^</code> に続いてトラック名（英数字 1
+文字）を羅列して表します。</p>
+<p>例を以下に示します：</p>
+<pre><code>^a
+^678bcDE</code></pre>
+<p>それぞれ「トラック <code>a</code>」、「トラック <code>6</code>,
+<code>7</code>, <code>8</code>, <code>b</code>, <code>c</code>,
+<code>D</code>, <code>E</code>」を表します。</p>
+<h2 id="詳細">詳細</h2>
+<p>トラックセットは（その名前に反して）すでに存在するトラックの集合<strong>ではなく</strong>、単なるトラック<strong>名</strong>の集合です。</p>
+<p>したがって、トラックセットに含まれるトラック名をもつトラックがすでに存在する必要はなく、トラックセットは新たなトラックを定義する際と、すでに定義されたトラックを参照する際の両方で用いられます。</p>
+<p>例として、<a href="../../../reference/moddl/constructions/effect.html"><code>effect</code></a>
+構築文は 2 つのトラックセット <code>tracks</code>, <code>sources</code>
+を引数に取りますが、<code>tracks</code>
+はこれから定義するトラック、<code>sources</code>
+はその入力となるトラックを表します。したがって <code>tracks</code>
+ではまだ存在しないトラック名、<code>sources</code>
+ではすでに存在するトラック名を指定しなければなりません。</p>
+<div class="note">
+<p><code>^</code> 記号の由来は正規表現です。</p>
+<p>「トラック名の集合」は、MML
+文であれば先頭に書かれるものであることから、正規表現で「先頭」を表す
+<code>^</code> を付ける仕様になりました。</p>
+</div>
+</body>
+</html>
