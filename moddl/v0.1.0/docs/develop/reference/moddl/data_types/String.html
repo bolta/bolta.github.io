@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-string"><span class="title-type">data type
+</span>String</h1>
+<p><strong>文字列</strong>を表す型です。ファイルパスなどの表現に使います。</p>
+<h2 id="値の記法">値の記法</h2>
+<p><code>" "</code> で任意の内容を囲んで表します。</p>
+<p>以下に例を示します：</p>
+<pre><code>&quot;./my_favorite_synths.moddl&quot;
+&quot;hello, world&quot;</code></pre>
+<div class="caution">
+<p><code>\</code>
+を使った特殊文字のエスケープには、現時点では対応していませんが、今後のバージョンでは対応を予定しています。したがって、</p>
+<ul>
+<li>文字列に <code>"</code> を含めることは、現時点ではできません。</li>
+<li>ファイルパスの区切り文字には Windows 環境でも <code>/</code>
+を使うことを推奨します（文字列に含める <code>\</code> は将来
+<code>\\</code>
+と書くことになる可能性が高く、非互換性の原因になります）。</li>
+</ul>
+</div>
+</body>
+</html>

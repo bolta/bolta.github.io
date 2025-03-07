@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<h1 id="data-type-array"><span class="title-type">data type
+</span>Array</h1>
+<p><strong>配列</strong>を表す型です。</p>
+<p>配列は、任意の型の値を 0
+個以上の任意の数だけ、順序付きで並べたものです。</p>
+<p>配列に属する値を、配列の<strong>要素</strong>と呼びます。各要素の型は統一されている必要はありません。</p>
+<h2 id="値の記法">値の記法</h2>
+<p><code>[ ]</code> で任意の数の要素を囲んで表します。要素の間は
+<code>,</code> で区切ります。</p>
+<p>最後の要素の後にも冗長な <code>,</code> を付けることができます。</p>
+<p>例を以下に示します：</p>
+<pre><code>[]
+[1, 3, 5, ]
+[foo, [&quot;bar&quot;, :baz], ^qux]</code></pre>
+<h2 id="詳細">詳細</h2>
+<p>配列の各要素は、先頭を <code>0</code>
+とする<strong>添字</strong>で指定して取り出すことができます。</p>
+<p>配列の要素を取り出すには
+<a href="../../../reference/moddl/builtin_library/functions/at.html"><code>at</code></a>
+関数を使います。</p>
+<pre><code>let a = [42, 100, -3];
+a~at(1)
+// ==&gt; 100</code></pre>
+<div class="note">
+<p>今後のバージョンでは <code>a[1]</code> のように <code>[ ]</code>
+演算子でも取り出せるようになる予定です。</p>
+</div>
+</body>
+</html>
