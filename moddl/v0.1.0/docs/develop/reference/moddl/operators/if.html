@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>-</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../../moddl.css" />
+</head>
+<body>
+<p class="breadcrumb">
+/ <a href="../../../reference/toc.html">リファレンス </a> /
+<a href="../../../reference/moddl/toc.html">ModDL リファレンス </a> /
+<a href="../../../reference/moddl/operators/toc.html">演算子 </a> /
+<a href="../../../reference/moddl/operators/if.html">if</a>
+</p>
+<h1 id="operator-if"><span class="title-type">operator </span>if</h1>
+<p>条件分岐を行います。</p>
+<h2 id="記法">記法</h2>
+<p><code>if cond then thenValue else elseValue</code></p>
+<h2 id="型定義">型定義</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型定義</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>ThenValue</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>ElseValue</p>
+</td>
+<td>
+<p>*</p>
+</td>
+</tr>
+</table>
+<h2 id="引数">引数</h2>
+<table>
+<tr>
+<th>
+<p>名前</p>
+</th>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>必須/省略時</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p><code>cond</code></p>
+</td>
+<td>
+<p>Number | ModuleDef</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p>条件。真偽値として解釈されます。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>thenValue</code></p>
+</td>
+<td>
+<p>ThenValue</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p><code>cond</code> が truthy である場合の値。</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><code>elseValue</code></p>
+</td>
+<td>
+<p>ElseValue</p>
+</td>
+<td>
+<p><strong>必須</strong></p>
+</td>
+<td>
+<p><code>cond</code> が falsy である場合の値。</p>
+</td>
+</tr>
+</table>
+<h2 id="値">値</h2>
+<table>
+<tr>
+<th>
+<p>型</p>
+</th>
+<th>
+<p>説明</p>
+</th>
+</tr>
+<tr>
+<td>
+<p>ThenValue | ElseValue</p>
+</td>
+<td>
+<p><code>cond</code> の値に応じた、<code>thenValue</code> か
+<code>elseValue</code> のいずれかの値。</p>
+</td>
+</tr>
+</table>
+<h2 id="詳細">詳細</h2>
+<p><code>else</code> 以降は式が一続きに解釈できる限り、全て
+<code>elseValue</code>
+として解釈されます。このため、望む結果を得るために括弧が必要になる場合があります：</p>
+<pre><code>// sineOsc か triangleOsc * 2 が得られる
+if cond then sineOsc else triangleOsc * 2
+
+// sineOsc * 2 か triangleOsc * 2 が得られる
+(if cond then sineOsc else triangleOsc) * 2</code></pre>
+<p>この演算子は Number と ModuleDef
+に対してオーバーロードされています。詳細は「<a href="../../../reference/moddl/operators/overloaded_calculations.html">オーバーロードされた演算</a>」を参照してください。</p>
+</body>
+</html>
