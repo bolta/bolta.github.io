@@ -30,8 +30,7 @@
 <a href="../../../../reference/moddl/builtin_library/toc.html">組み込みライブラリ
 </a> /
 <a href="../../../../reference/moddl/builtin_library/node_defs/toc.html">ノード定義
-</a> /
-<a href="../../../../reference/moddl/builtin_library/node_defs/delay.html">delay</a>
+</a> / delay
 </p>
 <h1 id="node-def-delay"><span class="title-type">node def
 </span>delay()</h1>
@@ -105,14 +104,19 @@
 // 原音と遅れた音を混合する
 @instrument ^a, (pulseOsc * adsrEnv) | delay(delayTime) { feedback: 0.95 }~dryWet(wet: 0.5)</code></pre>
 <h2 id="詳細">詳細</h2>
+<p><code>delay</code>
+はノード定義を提供する関数であり、それ自体はノード定義ではありません。ノード定義を利用するには関数適用の
+<a href="../../../../reference/moddl/operators/apply_function.html"><code>( )</code></a>
+演算子が必要です。</p>
 <p><code>time</code>
-は演奏中に変更することができますが、構築時に設定した
-<code>maxTime</code> の値を超えることはできません。</p>
+は演奏中に変更することができますが、<code>maxTime</code>
+の値を超えることはできません。</p>
 <p><code>feedback</code> が <code>0</code> でない場合、入力波形は
 <code>time</code> 秒が経過するごとに <code>feedback</code>
 倍の振幅で繰り返されます。</p>
-<p><a href="../../../../reference/moddl/builtin_library/node_defs/delay.html"><code>delay</code></a>
-の出力には、入力波形は含まれません。このため、単体で使うと遅れた波形だけが出力されます。出力に入力自体を含めたい場合は、<a href="../../../../reference/moddl/builtin_library/functions/dryWet.html"><code>dryWet</code></a>
+<p><code>delay</code>
+の出力には、入力波形は含まれません。このため、単体で使うと遅れた波形だけが出力されます。出力に入力自体を含めたい場合は
+<a href="../../../../reference/moddl/builtin_library/functions/dryWet.html"><code>dryWet</code></a>
 関数を併用してください。</p>
 </body>
 </html>

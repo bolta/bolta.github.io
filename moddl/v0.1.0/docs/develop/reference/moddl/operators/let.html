@@ -27,8 +27,7 @@
 <p class="breadcrumb">
 / <a href="../../../reference/toc.html">リファレンス </a> /
 <a href="../../../reference/moddl/toc.html">ModDL リファレンス </a> /
-<a href="../../../reference/moddl/operators/toc.html">演算子 </a> /
-<a href="../../../reference/moddl/operators/let.html">let</a>
+<a href="../../../reference/moddl/operators/toc.html">演算子 </a> / let
 </p>
 <h1 id="operator-let"><span class="title-type">operator </span>let</h1>
 <p>ローカル変数を定義します。</p>
@@ -145,22 +144,20 @@
 という数値に対して名前をつけることで、その数値の意味と単位を明確にしています：</p>
 <pre><code>let detuneCent = 10;
 =freq=&gt; freq | sineOsc + (2 ^ (detuneCent / 1200) * freq) | sineOsc</code></pre>
-<p><a href="../../../reference/moddl/operators/let.html"><code>let</code></a>
+<p><code>let</code>
 式は連鎖させることができます。これにより、ローカル変数を必要な数だけ定義することができます：</p>
 <pre><code>let osc = pulseOsc { duty: 0.5@duty };
 let flt = lpf { freq: 10000@cutoff, q: 5 };
 let env = adsrEnv { attack: 0@attack };
 osc | flt * env</code></pre>
 <div class="note">
-<p>構文上は、<a href="../../../reference/moddl/operators/let.html"><code>let</code></a>
-式の <code>value</code> の個所がまた
-<a href="../../../reference/moddl/operators/let.html"><code>let</code></a>
-式になった、入れ子構造になっています。</p>
+<p>構文上は、<code>let</code> 式の <code>value</code> の個所がまた
+<code>let</code> 式になった、入れ子構造になっています。</p>
 </div>
 <h2 id="詳細">詳細</h2>
 <p><code>;</code> 以降は式が一続きに解釈できる限り、全て
 <code>value</code>
-として解釈されます。したがって、その全体でローカル変数が有効になります。このことは通常問題になりませんが、<a href="../../../reference/moddl/operators/let.html"><code>let</code></a>
+として解釈されます。したがって、その全体でローカル変数が有効になります。このことは通常問題になりませんが、<code>let</code>
 式全体を
 <a href="../../../reference/moddl/operators/parenthesis.html"><code>( )</code></a>
 で囲むことで、ローカル変数のスコープを明示的にコントロールすることもできます。</p>

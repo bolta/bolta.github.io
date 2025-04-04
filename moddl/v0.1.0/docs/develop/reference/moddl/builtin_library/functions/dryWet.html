@@ -30,8 +30,7 @@
 <a href="../../../../reference/moddl/builtin_library/toc.html">組み込みライブラリ
 </a> /
 <a href="../../../../reference/moddl/builtin_library/functions/toc.html">関数
-</a> /
-<a href="../../../../reference/moddl/builtin_library/functions/dryWet.html">dryWet</a>
+</a> / dryWet
 </p>
 <h1 id="function-drywet"><span class="title-type">function
 </span>dryWet</h1>
@@ -151,9 +150,9 @@
 // 原音と遅れた音を混合する
 @instrument ^a, (pulseOsc * adsrEnv) | delay(delayTime) { feedback: 0.95 }~dryWet(wet: 0.5)</code></pre>
 <h2 id="詳細">詳細</h2>
-<p><a href="../../../../reference/moddl/builtin_library/functions/dryWet.html"><code>dryWet</code></a>
+<p><code>dryWet</code>
 は、エフェクトを引数に取り、エフェクトを返します。</p>
-<p><a href="../../../../reference/moddl/builtin_library/functions/dryWet.html"><code>dryWet</code></a>
+<p><code>dryWet</code>
 を使うと、任意のエフェクトの入力と出力を任意のバランスで混合することができます。これにより、個々のエフェクトの実装に当たっては、出力に原音を含めたり、そのレベルを調節したりする必要はなく、常に加工後の音だけを出力することに専念できます。</p>
 </body>
 </html>

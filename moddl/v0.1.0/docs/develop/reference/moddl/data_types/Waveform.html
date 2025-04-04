@@ -28,7 +28,7 @@
 / <a href="../../../reference/toc.html">リファレンス </a> /
 <a href="../../../reference/moddl/toc.html">ModDL リファレンス </a> /
 <a href="../../../reference/moddl/data_types/toc.html">データ型 </a> /
-<a href="../../../reference/moddl/data_types/Waveform.html">Waveform</a>
+Waveform
 </p>
 <h1 id="data-type-waveform"><span class="title-type">data type
 </span>Waveform</h1>
@@ -37,13 +37,10 @@
 <h2 id="値の記法">値の記法</h2>
 <p>他の型とは異なり、この型の値を直接表現する方法はありません。</p>
 <p><a href="../../../reference/moddl/constructions/waveform.html"><code>waveform</code></a>
-構築文を使って波形を構築すると、その波形を参照する
-<a href="../../../reference/moddl/data_types/Waveform.html"><em>Waveform</em></a>
+構築文を使って波形を構築すると、その波形を参照する <em>Waveform</em>
 型の値が生成され、変数に割り当てられます。</p>
 <p><a href="../../../reference/moddl/constructions/waveform.html"><code>waveform</code></a>
-文を使って
-<a href="../../../reference/moddl/data_types/Waveform.html"><em>Waveform</em></a>
-型の値を生成する例を以下に示します：</p>
+文を使って <em>Waveform</em> 型の値を生成する例を以下に示します：</p>
 <pre><code>// wav ファイルから
 @waveform :piano, &quot;/path/to/piano.wav&quot;
 // ==&gt; piano.type() = &quot;Waveform&quot;
@@ -58,10 +55,9 @@
 <p><a href="../../../reference/moddl/constructions/waveform.html"><code>waveform</code></a>
 文の第 2
 引数（<code>spec</code>）に指定するファイルパスや連想は、波形そのものでもなければ
-<a href="../../../reference/moddl/data_types/Waveform.html"><em>Waveform</em></a>
-型の値でもないことに注意してください。</p>
+<em>Waveform</em> 型の値でもないことに注意してください。</p>
 <p>ファイルパスや連想は波形の「元データ」であり、波形はそれらを元に別の領域に構築されたオブジェクトであるため、両者は別のものです。</p>
-<p>一方、<a href="../../../reference/moddl/data_types/Waveform.html"><em>Waveform</em></a>
+<p>一方、<em>Waveform</em>
 型の値は構築された波形に対する参照であるため、両者は密接に関連しています。これらは同一視して問題ありません。</p>
 <p><img src="./Waveform.png" width=50%></p>
 </body>
