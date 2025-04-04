@@ -56,7 +56,7 @@
 <p><code>path</code></p>
 </td>
 <td>
-<p>String</p>
+<p><a href="../../../../reference/moddl/data_types/String.html"><em>String</em></a></p>
 </td>
 <td>
 <p><strong>必須</strong></p>
@@ -121,9 +121,11 @@ a cdefg</code></pre>
 <p><code>path</code> で指定された ModDL ソースファイルに
 <a href="../../../../reference/moddl/constructions/export.html"><code>export</code></a>
 文がない場合、<code>ExportNotFound</code> エラーになります。</p>
-<p><code>import</code> 関数で取得した値に ModuleDef
+<p><code>import</code> 関数で取得した値に
+<a href="../../../../reference/moddl/data_types/ModuleDef.html"><em>ModuleDef</em></a>
 型の値が含まれる場合（配列や連想（さらにはネストしたそれら）の要素・値として間接的に含まれる場合を含みます）、その中で定義されたレジスタは、そのままでは使えません。これは値を取り込む側とのレジスタ名の衝突を回避するため、そのままでは使えないようガードする措置が施されているためです。ガードを解除するには、取得した
-ModuleDef 型の値に
+<a href="../../../../reference/moddl/data_types/ModuleDef.html"><em>ModuleDef</em></a>
+型の値に
 <a href="../../../../reference/moddl/operators/transform_registers.html"><code>#( )</code></a>
 または
 <a href="../../../../reference/moddl/operators/prefix_registers.html"><code>@@</code></a>

@@ -32,7 +32,8 @@
 <h1 id="moddl-のデータ型と値の記法">ModDL のデータ型と値の記法</h1>
 <p>この文書では、ModDL の値のデータ型について説明します。</p>
 <p>また、各々の型の値の記法についても説明します。</p>
-<h2 id="number">Number</h2>
+<h2
+id="number"><a href="../../reference/moddl/data_types/Number.html"><em>Number</em></a></h2>
 <p><strong>数値</strong>を表す型です。ModDL の数値は全て 32
 ビット浮動小数点数です。</p>
 <p>ModDL
@@ -49,9 +50,10 @@
 <li><code>-3.14</code></li>
 </ul>
 <h2 id="boolean">（Boolean）</h2>
-<p>Number
+<p><a href="../../reference/moddl/data_types/Number.html"><em>Number</em></a>
 型の項で述べた通り、真偽値のための独立した型はありませんが、便宜上、<code>1</code>
-と <code>-1</code> の 2 つの値のみからなる集合（したがって Number
+と <code>-1</code> の 2 つの値のみからなる集合（したがって
+<a href="../../reference/moddl/data_types/Number.html"><em>Number</em></a>
 の部分集合）を Boolean 型と呼ぶ場合があります。</p>
 <p>たとえば関数の適用結果が Boolean 型であると言った場合、その関数は
 <code>1</code> か <code>-1</code>
@@ -179,7 +181,8 @@ array）を表す型です。連想配列は、<strong>キー</strong>と<strong
 で囲んだパラメータを記述します。パラメータは名前と値を <code>:</code>
 で区切ったものです。</p>
 <pre><code>lpf { freq: 3000, q: 10 }</code></pre>
-<p>ノードファクトリにパラメータを与えたものは、後述の ModuleDef
+<p>ノードファクトリにパラメータを与えたものは、後述の
+<a href="../../reference/moddl/data_types/ModuleDef.html"><em>ModuleDef</em></a>
 型の値になります。</p>
 <h4
 id="パラメータとパラメータ名の省略">パラメータとパラメータ名の省略</h4>
@@ -224,7 +227,8 @@ id="ノードファクトリとノードの関係">ノードファクトリと�
 を処理して得られた（ノードファクトリを含む）ノード構造に基づいて、ModDL
 の外側で行われるため、ModDL
 を処理する段階においてはノードはまだ存在しないためです。</p>
-<h2 id="moduledef">ModuleDef</h2>
+<h2
+id="moduledef"><a href="../../reference/moddl/data_types/ModuleDef.html"><em>ModuleDef</em></a></h2>
 <p><strong>ノード構造</strong>を表す型です。ノード構造とは、ノードの接続関係などを表すものです。</p>
 <p>TODO blah blah</p>
 <h2 id="function">Function</h2>
